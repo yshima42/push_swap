@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/06 18:07:26 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/06 22:32:26 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,20 @@ void	dlst_del_front(t_dlst *head)
 	free(elem);
 }
 
+void	dlst_del(t_dlst *elem)
+{
+	t_dlst	*front;
+	t_dlst	*back;
+	
+	if (!elem)
+		return ;
+	front = elem->next;
+	back = elem->prev;
+	back->next = front;
+	front->prev = back;	
+	free(elem);
+}
+
 void	dlst_del_back(t_dlst *head)
 {
 	t_dlst *elem;
@@ -162,6 +176,7 @@ void	dlst_swap_front(t_dlst *head)
 		return ;
 	elem = head->next->next;
 	head->next->next = elem->next;
+	elem->next->prev = elem->prev;
 	head->next->prev = elem;
 	elem->prev = head;
 	elem->next = head->next;
@@ -202,10 +217,19 @@ void	dlst_rev_rotate(t_dlst *head)
 	front->prev = back;
 }
 
-void	dlst_push(t_dlst *to, t_dlst *from)
+void	dlst_push(t_dlst *from, t_dlst *to)
 {
-	dlst_add_front(to, dlst_new(from->next->num));
-	dlst_del_front(from);
+	dlst_add_front(to, dlst_new(from->num));
+	dlst_del(from);
+}
+
+void	dlst_push_top(t_dlst *from_head, t_dlst *to_head)
+{
+	t_dlst *elem;
+	
+	elem = from_head->next;
+	dlst_add_front(to_head, dlst_new(elem->num));
+	dlst_del(elem);
 }
 
 t_dlst	*dlst_init(void)
@@ -219,7 +243,7 @@ t_dlst	*dlst_init(void)
 		exit(1);
 	}
 	//後で消す
-	elem->num = 100000;
+	//elem->num = 100000;
 	elem->prev = elem;
 	elem->next = elem;
 	return (elem);
@@ -274,6 +298,13 @@ void	sb(t_dlst *b_head)
 	ft_putstr_fd("sb\n", 1);
 }
 
+void	ss(t_dlst *a_head, t_dlst *b_head)
+{
+	dlst_swap_front(a_head);
+	dlst_swap_front(b_head);
+	ft_putstr_fd("ss\n", 1);
+}
+
 void	ra(t_dlst *a_head)
 {
 	dlst_rotate(a_head);
@@ -286,10 +317,35 @@ void	rb(t_dlst *b_head)
 	ft_putstr_fd("rb\n", 1);
 }
 
+void	rr(t_dlst *a_head, t_dlst *b_head)
+{
+	dlst_rotate(a_head);
+	dlst_rotate(b_head);
+	ft_putstr_fd("rr\n", 1);	
+}
+
 void	rra(t_dlst *a_head)
 {
 	dlst_rev_rotate(a_head);
 	ft_putstr_fd("rra\n", 1);
+}
+
+void	rrb(t_dlst *b_head)
+{
+	dlst_rev_rotate(b_head);
+	ft_putstr_fd("rrb\n", 1);
+}
+
+void	rrr(t_dlst *a_head, t_dlst *b_head)
+{
+	dlst_rev_rotate(a_head);
+	dlst_rev_rotate(b_head);
+	ft_putstr_fd("rrr\n", 1);	
+}
+
+void	pa(t_dlst *a_head, t_dlst *b_head)
+{
+	
 }
 
 void	algo_2(t_dlst *a_head)
@@ -302,23 +358,55 @@ void	algo_2(t_dlst *a_head)
 
 void	algo_3(t_dlst *a_head)
 {
-	if (a_head->next->num > a_head->next->next->num
-		&& a_head->prev->num > a_head->next->num)
+	int a;
+	int b;
+	int c;
+	
+	a = a_head->next->num;
+	b = a_head->next->next->num;
+	c = a_head->prev->num;
+	if (b < a && a < c)
 		sa(a_head);
-	else if (a_head->next->num > a_head->next->next->num
-		&& a_head->prev->num > a_head->next->next->num)
+	else if (b < c && c < a)
 		ra(a_head);
-	else if (a_head->next->num > a_head->next->next->num
-		&& a_head->prev->num < a_head->next->next->num)
+	else if (c < b && b < a)
 	{
-		printf("%d\n", a_head->next->next->next->next->num);
 		sa(a_head);
-		printf("%d\n", a_head->next->next->next->next->num);
 		rra(a_head);
-		printf("%d\n", a_head->next->next->next->next->num);
 	}
+	else if (a < c && c < b)
+	{
+		sa(a_head);
+		ra(a_head);
+	}
+	else if (c < a && a < b)
+		rra(a_head);
 	else
-		exit (0);
+		ft_putstr_fd("same numbers\n", 2);
+}
+
+void	algo_u6(t_dlst *a_head, t_dlst *b_head)
+{
+	t_dlst	*p;
+	t_dlst	*p_s;
+	int		size;
+
+	size = dlst_size(a_head);
+	while(size > 3)
+	{
+		p = a_head->next;
+		p_s = a_head->next;
+		while(p != a_head)
+		{
+			if (p->num < p_s->num)
+				p_s = p;
+			p = p->next;
+		}
+		dlst_push(p_s, b_head);
+		size = dlst_size(a_head);
+ 	}
+	algo_3(a_head);
+	
 }
 
 int	main(int ac, char **av)
@@ -338,8 +426,8 @@ int	main(int ac, char **av)
 		algo_2(a_head);
 	else if (ac == 3)
 		algo_3(a_head);
-	/* else if (ac <= 6)
-		algo_u6(a_head, b_head, n_num); */
+	else if (ac <= 6)
+		algo_u6(a_head, b_head);
 	else
 		return (0);
 	print_stacks(a_head, b_head);
