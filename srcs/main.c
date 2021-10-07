@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/07 16:54:17 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/07 17:03:11 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -576,6 +576,7 @@ bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 	printf("pivot: %d\n", pivot->num);
 	arrange(a_head, b_head, min, max, pivot);
 	size = dlst_size(b_head);
+	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
 	if (size < 7)
 	{
 		if (size == 1)
@@ -588,6 +589,8 @@ bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 			algo_u6(b_head, a_head);
 		moveb_to_aback_tilldone(a_head, b_head);
 	}
+/* 	else
+		//次回ここから考えていく必要あり */
 	pre_piv = pivot->prev;
 	//dlst_qsort(b_head, a_head, pivot, max);
 	//dlst_qsort(a_head, b_head, min, pre_piv);
