@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/07 10:28:42 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/07 14:28:31 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,6 +355,19 @@ void	pb(t_dlst *a_head, t_dlst *b_head)
 	ft_putstr_fd("pb\n", 1);
 }
 
+int	check_distance(t_dlst *min, t_dlst *max)
+{
+	int dis_front;
+
+	dis_front = 0;
+	while(min != max)
+	{
+		min = min->next;
+		dis_front++;
+	}
+	return(dis_front);
+}
+
 bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
 {
 	int	dis_front;
@@ -463,6 +476,90 @@ void	algo_u6(t_dlst *a_head, t_dlst *b_head)
 	pusha_till_done(a_head, b_head);
 }
 
+t_dlst	*med3(t_dlst *min, t_dlst *max, t_dlst *p)
+{
+	int	a;
+	int	b;
+	int	c;
+
+	a = min->num;
+	b = max->num;
+	c = p->num;
+	if (a < b)
+		if (b < c)
+			return (max);
+		else if (a < c)
+			return (p);
+		else
+			return (min);
+	else
+		if (a < c)
+			return (min);
+		else if (b < c)
+			return (p);
+		else
+			return (max);
+}
+
+t_dlst	*find_pivot(t_dlst *min, t_dlst *max)
+{
+	int dis;
+	int	i;
+	t_dlst	*p;
+	
+	i = 0;
+	dis = check_distance(min, max);
+	dis /= 2;
+	p = min;
+	while(i < dis)
+	{
+		p = p->next;
+		i++;
+	}
+	return (med3 (min, max, p));
+}
+
+void	arrange(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, t_dlst *pivot)
+{
+	(void)a_head;
+	(void)b_head;
+	t_dlst	*p;
+	t_dlst	*p_last;
+	
+	p = min;
+	p_last = min;
+	while(p != max)
+	{
+		if(p->num < pivot->num)
+		{
+			p_last = p;
+		}
+		p = p->next;
+	}
+	
+}
+
+void	quick_sort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
+{
+	t_dlst	*pivot;
+	//t_dlst	*pre_piv;
+
+	(void)a_head;
+	(void)b_head;
+	//少ない時の処理必要
+	pivot = find_pivot(min, max);
+	printf("pivot: %d\n", pivot->num);
+	arrange(a_head, b_head, min, max, pivot);
+	/* pre_piv = pivot->prev;
+	quick_sort(a_head, b_head, min, pre_piv);
+	quick_sort(a_head, b_head, pivot, max);	 */
+}
+
+void	algo_o7(t_dlst *a_head, t_dlst *b_head)
+{
+	quick_sort(a_head, b_head, a_head->next, a_head->prev);
+}
+
 int	main(int ac, char **av)
 {
 	t_dlst *a_head;
@@ -483,7 +580,7 @@ int	main(int ac, char **av)
 	else if (ac <= 6)
 		algo_u6(a_head, b_head);
 	else
-		return (0);
+		algo_o7(a_head, b_head);
 	print_stacks(a_head, b_head);
 	return (0);
 }
