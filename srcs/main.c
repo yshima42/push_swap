@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/07 14:28:31 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/07 16:54:17 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	dlst_del(t_dlst *elem)
 	t_dlst	*front;
 	t_dlst	*back;
 	
-	if (!elem)
+	if (!elem || elem->next == elem)
 		return ;
 	front = elem->next;
 	back = elem->prev;
@@ -463,9 +463,21 @@ void	pushb_till_3(t_dlst	*a_head, t_dlst	*b_head)
 	}
 }
 
-void	pusha_till_done(t_dlst *a_head, t_dlst *b_head)
+void	moveb_to_aback_tilldone(t_dlst *a_head, t_dlst *b_head)
 {
 	while(b_head->next != b_head)
+	{
+		pa(a_head, b_head);
+		ra(a_head);
+	}
+}
+
+void	pusha_3_times(t_dlst *a_head, t_dlst *b_head)
+{
+	int i;
+
+	i = -1;
+	while(++i < 3)
 		pa(a_head, b_head);
 }
 
@@ -473,7 +485,7 @@ void	algo_u6(t_dlst *a_head, t_dlst *b_head)
 {
 	pushb_till_3(a_head, b_head);
 	algo_3(a_head);
-	pusha_till_done(a_head, b_head);
+	pusha_3_times(a_head, b_head);
 }
 
 t_dlst	*med3(t_dlst *min, t_dlst *max, t_dlst *p)
@@ -509,6 +521,9 @@ t_dlst	*find_pivot(t_dlst *min, t_dlst *max)
 	
 	i = 0;
 	dis = check_distance(min, max);
+	printf("dis: %d\n",dis);
+	/* if (dis < 2)
+		return (NULL); */
 	dis /= 2;
 	p = min;
 	while(i < dis)
@@ -521,8 +536,6 @@ t_dlst	*find_pivot(t_dlst *min, t_dlst *max)
 
 void	arrange(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, t_dlst *pivot)
 {
-	(void)a_head;
-	(void)b_head;
 	t_dlst	*p;
 	t_dlst	*p_last;
 	
@@ -536,28 +549,54 @@ void	arrange(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, t_dlst *p
 		}
 		p = p->next;
 	}
-	
+	printf("till: %d\n",p_last->num);
+	while(a_head->next != p_last)
+	{
+		if(a_head->next->num < pivot->num)//ここを小なりイコールにするとバグる！なぜ？？？要修正
+		{
+			printf("a_head->next->num: %d\n", a_head->next->num);
+			pb(a_head, b_head);
+		}
+		else
+			ra(a_head);
+	}
+	pb(a_head, b_head);
 }
 
-void	quick_sort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
+bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 {
 	t_dlst	*pivot;
-	//t_dlst	*pre_piv;
+	t_dlst	*pre_piv;
+	int	size;
 
-	(void)a_head;
-	(void)b_head;
 	//少ない時の処理必要
 	pivot = find_pivot(min, max);
+	if (!pivot)
+		return (false);
 	printf("pivot: %d\n", pivot->num);
 	arrange(a_head, b_head, min, max, pivot);
-	/* pre_piv = pivot->prev;
-	quick_sort(a_head, b_head, min, pre_piv);
-	quick_sort(a_head, b_head, pivot, max);	 */
+	size = dlst_size(b_head);
+	if (size < 7)
+	{
+		if (size == 1)
+			ft_putstr_fd("no need to change", 1);
+		else if (size == 2)
+			algo_2(b_head);
+		else if (size == 3)
+			algo_3(b_head);
+		else if (size <= 6)
+			algo_u6(b_head, a_head);
+		moveb_to_aback_tilldone(a_head, b_head);
+	}
+	pre_piv = pivot->prev;
+	//dlst_qsort(b_head, a_head, pivot, max);
+	//dlst_qsort(a_head, b_head, min, pre_piv);
+	return (true);
 }
 
 void	algo_o7(t_dlst *a_head, t_dlst *b_head)
 {
-	quick_sort(a_head, b_head, a_head->next, a_head->prev);
+	dlst_qsort(a_head, b_head, a_head->next, a_head->prev);
 }
 
 int	main(int ac, char **av)
