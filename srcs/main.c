@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/06 22:32:26 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/07 10:28:42 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,12 +340,45 @@ void	rrr(t_dlst *a_head, t_dlst *b_head)
 {
 	dlst_rev_rotate(a_head);
 	dlst_rev_rotate(b_head);
-	ft_putstr_fd("rrr\n", 1);	
+	ft_putstr_fd("rrr\n", 1);
 }
 
 void	pa(t_dlst *a_head, t_dlst *b_head)
 {
-	
+	dlst_push_top(b_head, a_head);
+	ft_putstr_fd("pa\n", 1);
+}
+
+void	pb(t_dlst *a_head, t_dlst *b_head)
+{
+	dlst_push_top(a_head, b_head);
+	ft_putstr_fd("pb\n", 1);
+}
+
+bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
+{
+	int	dis_front;
+	int	dis_back;
+	t_dlst	*p;
+
+	dis_front = 0;
+	dis_back = 0;
+	p = a_head;
+	while(p != p_s)
+	{
+		p = p->next;
+		dis_front++;
+	}
+	p = a_head;
+	while(p != p_s)
+	{
+		p = p->prev;
+		dis_back++;
+	}
+	if (dis_front <= dis_back)
+		return (true);
+	else
+		return (false);
 }
 
 void	algo_2(t_dlst *a_head)
@@ -382,10 +415,10 @@ void	algo_3(t_dlst *a_head)
 	else if (c < a && a < b)
 		rra(a_head);
 	else
-		ft_putstr_fd("same numbers\n", 2);
+		ft_putstr_fd("same numbers or no need to change\n", 2);//エラーハンドリングする
 }
 
-void	algo_u6(t_dlst *a_head, t_dlst *b_head)
+void	pushb_till_3(t_dlst	*a_head, t_dlst	*b_head)
 {
 	t_dlst	*p;
 	t_dlst	*p_s;
@@ -402,11 +435,32 @@ void	algo_u6(t_dlst *a_head, t_dlst *b_head)
 				p_s = p;
 			p = p->next;
 		}
-		dlst_push(p_s, b_head);
+		if (is_closer_front(a_head, p_s))
+		{
+			while(a_head->next != p_s)
+				ra(a_head);
+		}
+		else
+		{
+			while(a_head->next != p_s)
+				rra(a_head);
+		}
+		pb(a_head, b_head);
 		size = dlst_size(a_head);
- 	}
+	}
+}
+
+void	pusha_till_done(t_dlst *a_head, t_dlst *b_head)
+{
+	while(b_head->next != b_head)
+		pa(a_head, b_head);
+}
+
+void	algo_u6(t_dlst *a_head, t_dlst *b_head)
+{
+	pushb_till_3(a_head, b_head);
 	algo_3(a_head);
-	
+	pusha_till_done(a_head, b_head);
 }
 
 int	main(int ac, char **av)
