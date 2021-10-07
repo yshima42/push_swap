@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/07 17:03:11 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/07 17:57:35 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -566,7 +566,7 @@ void	arrange(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, t_dlst *p
 bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 {
 	t_dlst	*pivot;
-	t_dlst	*pre_piv;
+	//t_dlst	*pre_piv;
 	int	size;
 
 	//少ない時の処理必要
@@ -587,11 +587,12 @@ bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 			algo_3(b_head);
 		else if (size <= 6)
 			algo_u6(b_head, a_head);
-		moveb_to_aback_tilldone(a_head, b_head);
+		//max = a_head->prev;
+		//moveb_to_aback_tilldone(a_head, b_head);
 	}
 /* 	else
-		//次回ここから考えていく必要あり */
-	pre_piv = pivot->prev;
+		//次回ここから考えていく必要あり *///なんかやっぱりソートの部分おかしいから確認しないとバグが広がる
+	printf("pre_piv: %d\n", max->num);//ここじゃだめ、プッシュされる前の最終の部分を常に持っとくべき
 	//dlst_qsort(b_head, a_head, pivot, max);
 	//dlst_qsort(a_head, b_head, min, pre_piv);
 	return (true);
