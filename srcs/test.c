@@ -56,6 +56,17 @@ int main(void)
 	rra(a_head);
 
 	print_stacks(a_head, b_head);
+
+	printf("\n");
+	dlst_rotate(a_head);
+	dlst_rotate(b_head);
+
+	print_stacks(a_head, b_head);
+	printf("\n");
+	dlst_rev_rotate(a_head);
+	dlst_rev_rotate(b_head);
+
+	print_stacks(a_head, b_head);
 	
 	return 0;
 }
