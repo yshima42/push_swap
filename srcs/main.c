@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/07 17:57:35 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/08 18:04:12 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ t_dlst	*dlst_new(int num)
 	elem = (t_dlst *)malloc(sizeof(t_dlst));
 	if (!elem)
 		return (NULL);
-	elem->prev = elem->next = elem;
+	elem->prev = elem;
+	elem->next = elem;
 	elem->num = num;
 	return (elem);
 }
@@ -183,6 +184,24 @@ void	dlst_swap_front(t_dlst *head)
 	head->next = elem;
 }
 
+//ここのチェックから始める
+void	dlst_swap(t_dlst *a, t_dlst *b)
+{
+	t_dlst	a_prev;
+	t_dlst	b_next;
+	
+	if (!a || !b)
+		return ;
+	a_prev = a->prev;
+	b_next = b->next;
+	a_prev->next = b;
+	b->prev = a_prev;
+	b->next = a;
+	a->prev = b;
+	a->next = b_next;
+	b_next->prev = a;
+}
+
 void	dlst_rotate(t_dlst *head)
 {
 	t_dlst	*front;
@@ -190,14 +209,14 @@ void	dlst_rotate(t_dlst *head)
 	
 	if (!head)
 		return ;
-	front = head->prev;
-	back = head->next;
-	back->next->prev = head;
-	head->next = back->next;
-	head->prev = back;
-	back->prev = front;
-	back->next = head;
-	front->next = back;
+	front = head->next;
+	back = head->prev;
+	front->next->prev = head;
+	back->next = front->next;
+	head->prev = front;
+	front->prev = back;
+	front->next = head;
+	back->next = front;
 }
 
 void	dlst_rev_rotate(t_dlst *head)
@@ -603,7 +622,7 @@ void	algo_o7(t_dlst *a_head, t_dlst *b_head)
 	dlst_qsort(a_head, b_head, a_head->next, a_head->prev);
 }
 
-int	main(int ac, char **av)
+/* int	main(int ac, char **av)
 {
 	t_dlst *a_head;
 	t_dlst *b_head;
@@ -626,4 +645,4 @@ int	main(int ac, char **av)
 		algo_o7(a_head, b_head);
 	print_stacks(a_head, b_head);
 	return (0);
-}
+} */
