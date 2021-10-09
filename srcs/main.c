@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/08 23:21:21 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/09 08:53:30 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,22 +176,6 @@ void	dlst_add_front(t_dlst *head, t_dlst *new)
 }
 
 //ok
-void	dlst_swap_front(t_dlst *head)
-{
-	t_dlst	*elem;
-	
-	if (!head)
-		return ;
-	elem = head->next->next;
-	head->next->next = elem->next;
-	elem->next->prev = elem->prev;
-	head->next->prev = elem;
-	elem->prev = head;
-	elem->next = head->next;
-	head->next = elem;
-}
-
-//ok
 void	dlst_swap(t_dlst *a, t_dlst *b)
 {
 	t_dlst	*a_before;
@@ -207,6 +191,14 @@ void	dlst_swap(t_dlst *a, t_dlst *b)
 	a->prev = b;
 	a->next = b_after;
 	b_after->prev = a;
+}
+
+//ok
+void	dlst_swap_front(t_dlst *head)
+{
+	if (!head)
+		return ;
+	dlst_swap(head->next, head->next->next);
 }
 
 //ok
@@ -526,9 +518,9 @@ int	find_pivot(t_dlst *min, t_dlst *max)
 	
 	i = 0;
 	dis = check_distance(min, max);
-	printf("dis: %d\n",dis);
-	/* if (dis < 2)
-		return (NULL); */
+	/* printf("dis: %d\n",dis); */
+	if (dis < 2)
+		return (0);
 	dis /= 2;
 	p = min;
 	while(i < dis)
@@ -554,12 +546,10 @@ void	push_snum_b(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, int p
 		}
 		p = p->next;
 	}
-	printf("till: %d\n", p_last->num);
+/* 	printf("till: %d\n", p_last->num); */
 	while(a_head->next != p_last)
 	{
-		printf("a_head->next->num: %d\n",a_head->next->num);
-		printf("pivot->num: %d\n",pivot);	
-		if(a_head->next->num <= pivot)//ここを小なりイコールにするとバグる！なぜ？？？要修正
+		if(a_head->next->num <= pivot)
 		{
 			pb(a_head, b_head);
 		}
@@ -572,18 +562,19 @@ void	push_snum_b(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, int p
 bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 {
 	int	pivot;
-	//t_dlst	*pre_piv;
+	t_dlst	*pre_piv;
 	int	size;
 
 	//少ない時の処理必要
 	pivot = find_pivot(min, max);
 	if (!pivot)
 		return (false);
-	printf("pivot: %d\n", pivot);
+/* 	printf("pivot: %d\n", pivot); */
 	push_snum_b(a_head, b_head, min, max, pivot);
+	pre_piv = a_head->prev;
 	size = dlst_size(b_head);
 	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
-	/* if (size < 7)
+/* 	if (size < 7)
 	{
 		if (size == 1)
 			ft_putstr_fd("no need to change", 1);
@@ -595,11 +586,10 @@ bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 			algo_u6(b_head, a_head);
 		//max = a_head->prev;
 		//moveb_to_aback_tilldone(a_head, b_head);
-	} */
-/* 	else
-		//次回ここから考えていく必要あり *///なんかやっぱりソートの部分おかしいから確認しないとバグが広がる
-	printf("pre_piv: %d\n", max->num);//ここじゃだめ、プッシュされる前の最終の部分を常に持っとくべき
-	//dlst_qsort(b_head, a_head, pivot, max);
+	}
+ 	else */
+	printf("pre_piv: %d\n", pre_piv->num);
+	dlst_qsort(b_head, a_head, b_head->next, b_head->prev);
 	//dlst_qsort(a_head, b_head, min, pre_piv);
 	return (true);
 }
