@@ -30,41 +30,10 @@ int main(void)
 	dlst_add_front(b_head, dlst_new(2));
 	dlst_add_front(b_head, dlst_new(1));
 
-	while(a_head->next->num != 20)
-	{
-		if(a_head->next->num < 11)
-		{
-			pb(a_head, b_head);
-		}
-		else
-			ra(a_head);
-	}
-	pb(a_head, b_head);
 	print_stacks(a_head, b_head);
 
-	pa(a_head, b_head);
-	pa(a_head, b_head);
-	pa(a_head, b_head);
-	pa(a_head, b_head);
-	pa(a_head, b_head);
-
-	ra(a_head);
-	ra(a_head);
-	ra(a_head);
-	rra(a_head);
-	rra(a_head);
-	rra(a_head);
-
-	print_stacks(a_head, b_head);
-
+	dlst_push_top(a_head, b_head);
 	printf("\n");
-	dlst_rotate(a_head);
-	dlst_rotate(b_head);
-
-	print_stacks(a_head, b_head);
-	printf("\n");
-	dlst_rev_rotate(a_head);
-	dlst_rev_rotate(b_head);
 
 	print_stacks(a_head, b_head);
 	

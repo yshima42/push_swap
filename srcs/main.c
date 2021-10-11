@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/09 08:53:30 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/11 17:02:34 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@ typedef	struct s_dlst
 	struct s_dlst *next;
 } t_dlst;
 
+typedef	struct s_info
+{
+	t_dlst	*biggest;
+	t_dlst	*smallest;
+} t_info;
+
+typedef struct s_stack
+{
+	t_dlst	*a_head;
+	t_dlst	*b_head;
+} t_stack;
 
 /* 
 
@@ -223,21 +234,14 @@ void	dlst_rev_rotate(t_dlst *head)
 	dlst_swap(back, head);
 }
 
-//ok
-void	dlst_push(t_dlst *from, t_dlst *to)
-{
-	dlst_add_front(to, dlst_new(from->num));
-	dlst_del(from);
-}
-
-//
 void	dlst_push_top(t_dlst *from_head, t_dlst *to_head)
 {
 	t_dlst *elem;
 	
-	elem = from_head->next;
-	dlst_add_front(to_head, dlst_new(elem->num));
-	dlst_del(elem);
+	elem = from_head->next->next;
+	dlst_add_front(to_head, from_head->next);
+	elem->prev = from_head;
+	from_head->next = elem;
 }
 
 t_dlst	*dlst_init(void)
@@ -281,13 +285,27 @@ void	print_stacks(t_dlst *a_head, t_dlst *b_head)
 	}
 }
 
-void	av_to_a(t_dlst *a_head, char **av)
+void	av_to_a(t_dlst *a_head, char **av, t_info *info)
 {
+	(void)info;
 	size_t	i;
+	int	num;
 	
 	i = 0;
+	
 	while (av[++i])
-		dlst_add_back(a_head, dlst_new(ft_atoi(av[i])));
+	{
+		num = ft_atoi(av[i]);
+		dlst_add_back(a_head, dlst_new(num));
+		/* if (num < info->smallest->num)
+			info->smallest = a_head->prev;
+		if (num > info->biggest->num)
+			info->biggest = a_head->prev; */
+	}
+	/* info->smallest = a_head->next;
+	info->biggest = a_head->next;
+	printf("smallest: %d\n", info->smallest->num);
+	printf("biggest: %d\n", info->biggest->num); */
 }
 
 void	sa(t_dlst *a_head)
@@ -467,7 +485,7 @@ void	pushb_till_3(t_dlst	*a_head, t_dlst	*b_head)
 	}
 }
 
-void	moveb_to_aback_tilldone(t_dlst *a_head, t_dlst *b_head)
+void	addback_to_a_tilldone(t_dlst *a_head, t_dlst *b_head)
 {
 	while(b_head->next != b_head)
 	{
@@ -549,7 +567,7 @@ void	push_snum_b(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, int p
 /* 	printf("till: %d\n", p_last->num); */
 	while(a_head->next != p_last)
 	{
-		if(a_head->next->num <= pivot)
+		if(a_head->next->num < pivot)
 		{
 			pb(a_head, b_head);
 		}
@@ -559,7 +577,7 @@ void	push_snum_b(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, int p
 	pb(a_head, b_head);
 }
 
-bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
+bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, t_info *info)
 {
 	int	pivot;
 	t_dlst	*pre_piv;
@@ -569,12 +587,11 @@ bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 	pivot = find_pivot(min, max);
 	if (!pivot)
 		return (false);
-/* 	printf("pivot: %d\n", pivot); */
+	printf("pivot: %d\n", pivot);
 	push_snum_b(a_head, b_head, min, max, pivot);
-	pre_piv = a_head->prev;
 	size = dlst_size(b_head);
 	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
-/* 	if (size < 7)
+	if (size < 7)
 	{
 		if (size == 1)
 			ft_putstr_fd("no need to change", 1);
@@ -584,42 +601,76 @@ bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max)
 			algo_3(b_head);
 		else if (size <= 6)
 			algo_u6(b_head, a_head);
-		//max = a_head->prev;
-		//moveb_to_aback_tilldone(a_head, b_head);
+		//ここでsmallest見つける
+		info->smallest = b_head->next;
+		printf("smallest: %d\n", info->smallest->num);
 	}
- 	else */
+ 	else
+	 	return(0);//dlst_qsort(b_head, a_head, b_head->next, b_head->prev, info);
+	//下記を後で追加
+	//addback_to_a_tilldone(a_head, b_head);
+	pre_piv = a_head->prev;
 	printf("pre_piv: %d\n", pre_piv->num);
-	dlst_qsort(b_head, a_head, b_head->next, b_head->prev);
-	//dlst_qsort(a_head, b_head, min, pre_piv);
+	//dlst_qsort(b_head, a_head, b_head->next, b_head->prev);
+	printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",a_head->next->num, info->smallest->num);
+	//dlst_qsort(a_head, b_head, a_head->next, info->smallest->prev, info);//ここでa_head側再帰
 	return (true);
 }
 
-void	algo_o7(t_dlst *a_head, t_dlst *b_head)
+void	algo_o7(t_dlst *a_head, t_dlst *b_head, t_info *info)
 {
-	dlst_qsort(a_head, b_head, a_head->next, a_head->prev);
+	dlst_qsort(a_head, b_head, a_head->next, a_head->prev, info);
+}
+
+t_info	*info_init(void)
+{
+	t_info	*elem;
+
+	elem = (t_info *)malloc(sizeof(t_info));
+	if(!elem)
+	{
+		ft_putstr_fd("malloc error", 2);
+		exit(1);
+	}
+	return (elem);
+}
+
+t_stack	*stack_init(void)
+{
+	t_stack	*elem;
+
+	elem = (t_stack *)malloc(sizeof(t_stack));
+	if(!elem)
+	{
+		ft_putstr_fd("malloc error", 2);
+		exit(1);
+	}
+	return (elem);
 }
 
 int	main(int ac, char **av)
 {
-	t_dlst *a_head;
-	t_dlst *b_head;
+	t_stack	*stack;
+	t_info	*info;
 	int	n_num;
 
 	args_check(ac, av);
-	a_head = dlst_init();
-	b_head = dlst_init();
-	av_to_a(a_head, av);
+	stack = stack_init();
+	stack->a_head = dlst_init();
+	stack->b_head = dlst_init();
+	info = info_init();
+	av_to_a(stack->a_head, av, info);
 	n_num = ac--;
 	if (ac == 1)
 		ft_putstr_fd("no need to change", 1);
 	else if (ac == 2)
-		algo_2(a_head);
+		algo_2(stack->a_head);
 	else if (ac == 3)
-		algo_3(a_head);
+		algo_3(stack->a_head);
 	else if (ac <= 6)
-		algo_u6(a_head, b_head);
+		algo_u6(stack->a_head, stack->b_head);
 	else
-		algo_o7(a_head, b_head);
-	print_stacks(a_head, b_head);
+		algo_o7(stack->a_head, stack->b_head, info);
+	print_stacks(stack->a_head, stack->b_head);
 	return (0);
 }
