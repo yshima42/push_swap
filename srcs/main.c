@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/11 17:02:34 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/11 17:30:11 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,19 +266,19 @@ void	args_check(int ac, char **av)
 		exit (EXIT_FAILURE);
 }
 
-void	print_stacks(t_dlst *a_head, t_dlst *b_head)
+void	print_stacks(t_stack *stack)
 {
 	t_dlst *p;
 	
-	p = a_head->next;
-	while(p != a_head)
+	p = stack->a_head->next;
+	while(p != stack->a_head)
 	{
 		printf("A: %d\n",p->num);
 		p = p->next;
 	}
 	printf("\n");
-	p = b_head->next;
-	while(p != b_head)
+	p = stack->b_head->next;
+	while(p != stack->b_head)
 	{
 		printf("B: %d\n",p->num);
 		p = p->next;
@@ -528,43 +528,45 @@ int	med3(int a, int b, int c)
 			return (b);
 }
 
-int	find_pivot(t_dlst *min, t_dlst *max)
+int	find_pivot(t_dlst *a_head, int size)
 {
-	int dis;
 	int	i;
+	int	middle;
 	t_dlst	*p;
 	
 	i = 0;
-	dis = check_distance(min, max);
-	/* printf("dis: %d\n",dis); */
-	if (dis < 2)
+	if (size < 2)
 		return (0);
-	dis /= 2;
-	p = min;
-	while(i < dis)
+	p = a_head->next;
+	while(i < size)
 	{
+		if(i == size / 2)
+			middle = p->num;
 		p = p->next;
 		i++;
 	}
-	return (med3 (min->num, max->num, p->num));
+	//printf("確認：%d, %d, %d",a_head->next->num, middle, p->prev->num);
+	return (med3 (a_head->next->num, middle, p->num));
 }
 
-void	push_snum_b(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, int pivot)
+void	push_snum_b(t_dlst *a_head, t_dlst *b_head, int size, int pivot)
 {
 	t_dlst	*p;
 	t_dlst	*p_last;
+	int i;
 	
-	p = min;
-	p_last = min;
-	while(p != max->next)
+	p = a_head->next;
+	p_last = a_head->next;
+	i = 0;
+	while(i < size)
 	{
 		if(p->num <= pivot)
 		{
 			p_last = p;
 		}
 		p = p->next;
+		i++;
 	}
-/* 	printf("till: %d\n", p_last->num); */
 	while(a_head->next != p_last)
 	{
 		if(a_head->next->num < pivot)
@@ -577,49 +579,51 @@ void	push_snum_b(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, int p
 	pb(a_head, b_head);
 }
 
-bool	dlst_qsort(t_dlst *a_head, t_dlst *b_head, t_dlst *min, t_dlst *max, t_info *info)
+bool	qsort_AtoB(t_stack *stack, int size, t_info *info)
 {
 	int	pivot;
 	t_dlst	*pre_piv;
-	int	size;
 
 	//少ない時の処理必要
-	pivot = find_pivot(min, max);
+	pivot = find_pivot(stack->a_head, size);
 	if (!pivot)
 		return (false);
+	//sizeが1だったら終わる処理を入れる
 	printf("pivot: %d\n", pivot);
-	push_snum_b(a_head, b_head, min, max, pivot);
-	size = dlst_size(b_head);
+	push_snum_b(stack->a_head, stack->b_head, size, pivot);
+
 	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
-	if (size < 7)
+	/* if (size < 7)
 	{
 		if (size == 1)
 			ft_putstr_fd("no need to change", 1);
 		else if (size == 2)
-			algo_2(b_head);
+			algo_2(stack->b_head);
 		else if (size == 3)
-			algo_3(b_head);
+			algo_3(stack->b_head);
 		else if (size <= 6)
-			algo_u6(b_head, a_head);
+			algo_u6(stack->b_head, stack->a_head);
 		//ここでsmallest見つける
-		info->smallest = b_head->next;
+		info->smallest = stack->b_head->next;
 		printf("smallest: %d\n", info->smallest->num);
 	}
  	else
-	 	return(0);//dlst_qsort(b_head, a_head, b_head->next, b_head->prev, info);
+	 	return(0);//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev, info); */
 	//下記を後で追加
 	//addback_to_a_tilldone(a_head, b_head);
-	pre_piv = a_head->prev;
+	pre_piv = stack->a_head->prev;
 	printf("pre_piv: %d\n", pre_piv->num);
-	//dlst_qsort(b_head, a_head, b_head->next, b_head->prev);
-	printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",a_head->next->num, info->smallest->num);
-	//dlst_qsort(a_head, b_head, a_head->next, info->smallest->prev, info);//ここでa_head側再帰
+	(void)info;
+	//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev);
+	//printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",stack->a_head->next->num, info->smallest->num);
+	//qsort_AtoB(a_head, b_head, a_head->next, info->smallest->prev, info);//ここでa_head側再帰
 	return (true);
 }
 
-void	algo_o7(t_dlst *a_head, t_dlst *b_head, t_info *info)
+void	algo_o7(t_stack *stack, t_info *info)
 {
-	dlst_qsort(a_head, b_head, a_head->next, a_head->prev, info);
+	printf("size: %d\n",dlst_size(stack->a_head));
+	qsort_AtoB(stack, dlst_size(stack->a_head), info);
 }
 
 t_info	*info_init(void)
@@ -670,7 +674,7 @@ int	main(int ac, char **av)
 	else if (ac <= 6)
 		algo_u6(stack->a_head, stack->b_head);
 	else
-		algo_o7(stack->a_head, stack->b_head, info);
-	print_stacks(stack->a_head, stack->b_head);
+		algo_o7(stack, info);
+	print_stacks(stack);
 	return (0);
 }
