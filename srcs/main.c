@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/11 17:30:11 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/12 17:32:29 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@ typedef	struct s_info
 {
 	t_dlst	*biggest;
 	t_dlst	*smallest;
+	int	n_pb;
+	int n_pa;
+	int	n_ra;
 } t_info;
 
 typedef struct s_stack
 {
 	t_dlst	*a_head;
 	t_dlst	*b_head;
+	t_info	*info;
 } t_stack;
 
 /* 
@@ -285,9 +289,8 @@ void	print_stacks(t_stack *stack)
 	}
 }
 
-void	av_to_a(t_dlst *a_head, char **av, t_info *info)
+void	av_to_a(t_stack *stack, char **av)
 {
-	(void)info;
 	size_t	i;
 	int	num;
 	
@@ -296,7 +299,7 @@ void	av_to_a(t_dlst *a_head, char **av, t_info *info)
 	while (av[++i])
 	{
 		num = ft_atoi(av[i]);
-		dlst_add_back(a_head, dlst_new(num));
+		dlst_add_back(stack->a_head, dlst_new(num));
 		/* if (num < info->smallest->num)
 			info->smallest = a_head->prev;
 		if (num > info->biggest->num)
@@ -308,72 +311,72 @@ void	av_to_a(t_dlst *a_head, char **av, t_info *info)
 	printf("biggest: %d\n", info->biggest->num); */
 }
 
-void	sa(t_dlst *a_head)
+void	sa(t_stack *stack)
 {
-	dlst_swap_front(a_head);
+	dlst_swap_front(stack->a_head);
 	ft_putstr_fd("sa\n", 1);
 }
 
-void	sb(t_dlst *b_head)
+void	sb(t_stack *stack)
 {
-	dlst_swap_front(b_head);
+	dlst_swap_front(stack->b_head);
 	ft_putstr_fd("sb\n", 1);
 }
 
-void	ss(t_dlst *a_head, t_dlst *b_head)
+void	ss(t_stack *stack)
 {
-	dlst_swap_front(a_head);
-	dlst_swap_front(b_head);
+	dlst_swap_front(stack->a_head);
+	dlst_swap_front(stack->b_head);
 	ft_putstr_fd("ss\n", 1);
 }
 
-void	ra(t_dlst *a_head)
+void	ra(t_stack *stack)
 {
-	dlst_rotate(a_head);
+	dlst_rotate(stack->a_head);
 	ft_putstr_fd("ra\n", 1);
 }
 
-void	rb(t_dlst *b_head)
+void	rb(t_stack *stack)
 {
-	dlst_rotate(b_head);
+	dlst_rotate(stack->b_head);
 	ft_putstr_fd("rb\n", 1);
 }
 
-void	rr(t_dlst *a_head, t_dlst *b_head)
+void	rr(t_stack *stack)
 {
-	dlst_rotate(a_head);
-	dlst_rotate(b_head);
+	dlst_rotate(stack->a_head);
+	dlst_rotate(stack->b_head);
 	ft_putstr_fd("rr\n", 1);	
 }
 
-void	rra(t_dlst *a_head)
+void	rra(t_stack *stack)
 {
-	dlst_rev_rotate(a_head);
+	dlst_rev_rotate(stack->a_head);
 	ft_putstr_fd("rra\n", 1);
 }
 
-void	rrb(t_dlst *b_head)
+void	rrb(t_stack *stack)
 {
-	dlst_rev_rotate(b_head);
+	dlst_rev_rotate(stack->b_head);
 	ft_putstr_fd("rrb\n", 1);
 }
 
-void	rrr(t_dlst *a_head, t_dlst *b_head)
+void	rrr(t_stack *stack)
 {
-	dlst_rev_rotate(a_head);
-	dlst_rev_rotate(b_head);
+	dlst_rev_rotate(stack->a_head);
+	dlst_rev_rotate(stack->b_head);
 	ft_putstr_fd("rrr\n", 1);
 }
 
-void	pa(t_dlst *a_head, t_dlst *b_head)
+void	pa(t_stack *stack)
 {
-	dlst_push_top(b_head, a_head);
+	dlst_push_top(stack->b_head, stack->a_head);
 	ft_putstr_fd("pa\n", 1);
 }
 
-void	pb(t_dlst *a_head, t_dlst *b_head)
+void	pb(t_stack *stack)
 {
-	dlst_push_top(a_head, b_head);
+	dlst_push_top(stack->a_head, stack->b_head);
 	ft_putstr_fd("pb\n", 1);
 }
 
@@ -416,15 +419,15 @@ bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
 		return (false);
 }
 
-void	algo_2(t_dlst *a_head)
+void	algo_2(t_dlst *a_head, t_stack *stack)
 {
 	if (a_head->next->num > a_head->prev->num)
-		sa(a_head);
+		sa(stack);
 	else
 		ft_putstr_fd("no need to change\n", 1);
 }
 
-void	algo_3(t_dlst *a_head)
+void	algo_3(t_dlst *a_head, t_stack *stack)
 {
 	int a;
 	int b;
@@ -434,80 +437,80 @@ void	algo_3(t_dlst *a_head)
 	b = a_head->next->next->num;
 	c = a_head->prev->num;
 	if (b < a && a < c)
-		sa(a_head);
+		sa(stack);
 	else if (b < c && c < a)
-		ra(a_head);
+		ra(stack);
 	else if (c < b && b < a)
 	{
-		sa(a_head);
-		rra(a_head);
+		sa(stack);
+		rra(stack);
 	}
 	else if (a < c && c < b)
 	{
-		sa(a_head);
-		ra(a_head);
+		sa(stack);
+		ra(stack);
 	}
 	else if (c < a && a < b)
-		rra(a_head);
+		rra(stack);
 	else
 		ft_putstr_fd("same numbers or no need to change\n", 2);//エラーハンドリングする
 }
 
-void	pushb_till_3(t_dlst	*a_head, t_dlst	*b_head)
+void	pushb_till_3(t_stack *stack)
 {
 	t_dlst	*p;
 	t_dlst	*p_s;
 	int		size;
 
-	size = dlst_size(a_head);
+	size = dlst_size(stack->a_head);
 	while(size > 3)
 	{
-		p = a_head->next;
-		p_s = a_head->next;
-		while(p != a_head)
+		p = stack->a_head->next;
+		p_s = stack->a_head->next;
+		while(p != stack->a_head)
 		{
 			if (p->num < p_s->num)
 				p_s = p;
 			p = p->next;
 		}
-		if (is_closer_front(a_head, p_s))
+		if (is_closer_front(stack->a_head, p_s))
 		{
-			while(a_head->next != p_s)
-				ra(a_head);
+			while(stack->a_head->next != p_s)
+				ra(stack);
 		}
 		else
 		{
-			while(a_head->next != p_s)
-				rra(a_head);
+			while(stack->a_head->next != p_s)
+				rra(stack);
 		}
-		pb(a_head, b_head);
-		size = dlst_size(a_head);
+		pb(stack);
+		size = dlst_size(stack->a_head);
 	}
 }
 
-void	addback_to_a_tilldone(t_dlst *a_head, t_dlst *b_head)
+void	addback_to_a_tilldone(t_stack *stack)
 {
-	while(b_head->next != b_head)
+	while(stack->b_head->next != stack->b_head)
 	{
-		pa(a_head, b_head);
-		ra(a_head);
+		pa(stack);
+		ra(stack);
 	}
 }
 
-void	pusha_3_times(t_dlst *a_head, t_dlst *b_head)
+void	pusha_3_times(t_stack *stack)
 {
 	int i;
 
 	i = -1;
 	while(++i < 3)
-		pa(a_head, b_head);
+		pa(stack);
 }
 
-void	algo_u6(t_dlst *a_head, t_dlst *b_head)
+void	algo_u6(t_stack *stack)
 {
-	pushb_till_3(a_head, b_head);
-	algo_3(a_head);
-	pusha_3_times(a_head, b_head);
+	pushb_till_3(stack);
+	algo_3(stack->a_head, stack);
+	pusha_3_times(stack);
 }
 
 int	med3(int a, int b, int c)
@@ -545,85 +548,146 @@ int	find_pivot(t_dlst *a_head, int size)
 		p = p->next;
 		i++;
 	}
-	//printf("確認：%d, %d, %d",a_head->next->num, middle, p->prev->num);
-	return (med3 (a_head->next->num, middle, p->num));
+	printf("確認：%d, %d, %d\n",a_head->next->num, middle, p->prev->num);
+	return (med3 (a_head->next->num, middle, p->prev->num));
 }
 
-void	push_snum_b(t_dlst *a_head, t_dlst *b_head, int size, int pivot)
+void	push_snum_toB(t_stack *stack, int size, int pivot)
 {
 	t_dlst	*p;
 	t_dlst	*p_last;
 	int i;
 	
-	p = a_head->next;
-	p_last = a_head->next;
+	p = stack->a_head->next;
+	p_last = stack->a_head->next;
 	i = 0;
 	while(i < size)
 	{
-		if(p->num <= pivot)
+		if(stack->a_head->next->num > pivot)
 		{
-			p_last = p;
-		}
-		p = p->next;
-		i++;
-	}
-	while(a_head->next != p_last)
-	{
-		if(a_head->next->num < pivot)
-		{
-			pb(a_head, b_head);
+			ra(stack);
+			stack->info->n_ra++;
 		}
 		else
-			ra(a_head);
+		{
+			pb(stack);
+			stack->info->n_pb++;
+		}
+		i++;
 	}
-	pb(a_head, b_head);
+	i = 0;
+	//元に戻してる（必要か？）
+	while(i < stack->info->n_ra)
+	{
+		rra(stack);
+		i++;
+	}
 }
 
-bool	qsort_AtoB(t_stack *stack, int size, t_info *info)
+void	push_snum_toA(t_stack *stack, int size, int pivot)
+{
+	t_dlst	*p;
+	t_dlst	*p_last;
+	int i;
+	
+	p = stack->b_head->next;
+	p_last = stack->b_head->next;
+	i = 0;
+	while(i < size)
+	{
+		if(stack->b_head->next->num < pivot)
+		{
+			rb(stack);
+		}
+		else
+		{
+			pa(stack);
+			stack->info->n_pa++;
+		}
+		i++;
+	}
+	while(i < stack->info->n_ra)
+	{
+		rra(stack);
+		i++;
+	}
+}
+
+bool	qsort_BtoA(t_stack *stack, int size);
+
+bool	qsort_AtoB(t_stack *stack, int size)
 {
 	int	pivot;
 	t_dlst	*pre_piv;
 
 	//少ない時の処理必要
+	if (size == 1)
+		return true;
 	pivot = find_pivot(stack->a_head, size);
-	if (!pivot)
-		return (false);
 	//sizeが1だったら終わる処理を入れる
 	printf("pivot: %d\n", pivot);
-	push_snum_b(stack->a_head, stack->b_head, size, pivot);
-
+	stack->info->n_pb = 0;
+	stack->info->n_ra = 0;
+	push_snum_toB(stack, size, pivot);
+/* 
 	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
-	/* if (size < 7)
+	int b_size;
+	b_size = dlst_size(stack->b_head);
+	if (b_size < 7)
 	{
-		if (size == 1)
+		if (b_size == 1)
 			ft_putstr_fd("no need to change", 1);
-		else if (size == 2)
+		else if (b_size == 2)
 			algo_2(stack->b_head);
-		else if (size == 3)
+		else if (b_size == 3)
 			algo_3(stack->b_head);
-		else if (size <= 6)
+		else if (b_size <= 6)
 			algo_u6(stack->b_head, stack->a_head);
 		//ここでsmallest見つける
 		info->smallest = stack->b_head->next;
 		printf("smallest: %d\n", info->smallest->num);
 	}
  	else
-	 	return(0);//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev, info); */
+	 	return(0);//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev, info); */ 
 	//下記を後で追加
 	//addback_to_a_tilldone(a_head, b_head);
 	pre_piv = stack->a_head->prev;
 	printf("pre_piv: %d\n", pre_piv->num);
-	(void)info;
+	printf("ra: %d\n", stack->info->n_ra);
+	qsort_AtoB(stack, stack->info->n_ra);
+	qsort_BtoA(stack, stack->info->n_pb);
 	//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev);
 	//printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",stack->a_head->next->num, info->smallest->num);
 	//qsort_AtoB(a_head, b_head, a_head->next, info->smallest->prev, info);//ここでa_head側再帰
 	return (true);
 }
 
-void	algo_o7(t_stack *stack, t_info *info)
+bool	qsort_BtoA(t_stack *stack, int b_size)
+{
+	int	pivot;
+
+	if (b_size == 1)
+	{
+		pa(stack);
+		return(true);
+	}
+	pivot = find_pivot(stack->b_head, b_size);
+	printf("pivot: %d\n", pivot);
+	stack->info->n_pa = 0;
+	push_snum_toA(stack, b_size, pivot);
+	printf("pb: %d\n",stack->info->n_pb);
+	printf("pa: %d\n",stack->info->n_pa);
+	printf("size: %d\n",dlst_size(stack->b_head));
+	//qsort_AtoB(stack, 1);
+	//qsort_BtoA(stack, dlst_size(stack->b_head));
+	
+	return true;
+}
+
+void	algo_o7(t_stack *stack)
 {
 	printf("size: %d\n",dlst_size(stack->a_head));
-	qsort_AtoB(stack, dlst_size(stack->a_head), info);
+	qsort_AtoB(stack, dlst_size(stack->a_head));
 }
 
 t_info	*info_init(void)
@@ -636,6 +700,8 @@ t_info	*info_init(void)
 		ft_putstr_fd("malloc error", 2);
 		exit(1);
 	}
+	elem->n_pa = 0;
+	elem->n_pb = 0;
 	return (elem);
 }
 
@@ -655,26 +721,25 @@ t_stack	*stack_init(void)
 int	main(int ac, char **av)
 {
 	t_stack	*stack;
-	t_info	*info;
 	int	n_num;
 
 	args_check(ac, av);
 	stack = stack_init();
 	stack->a_head = dlst_init();
 	stack->b_head = dlst_init();
-	info = info_init();
-	av_to_a(stack->a_head, av, info);
+	stack->info = info_init();
+	av_to_a(stack, av);
 	n_num = ac--;
 	if (ac == 1)
 		ft_putstr_fd("no need to change", 1);
 	else if (ac == 2)
-		algo_2(stack->a_head);
+		algo_2(stack->a_head, stack);
 	else if (ac == 3)
-		algo_3(stack->a_head);
+		algo_3(stack->a_head, stack);
 	else if (ac <= 6)
-		algo_u6(stack->a_head, stack->b_head);
+		algo_u6(stack);
 	else
-		algo_o7(stack, info);
+		algo_o7(stack);
 	print_stacks(stack);
 	return (0);
 }
