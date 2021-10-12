@@ -14,28 +14,32 @@ int main(void)
 		i++;
 	} */
 
-	t_dlst *a_head;
-	t_dlst *b_head;
-	//t_dlst *p;
-	
-	a_head = dlst_init();
-	b_head = dlst_init();
-	dlst_add_back(a_head, dlst_new(10));
-	dlst_add_back(a_head, dlst_new(20));
-	dlst_add_front(a_head, dlst_new(5));
-	dlst_add_front(a_head, dlst_new(3));
+	t_stack	*stack;
 
-	dlst_add_back(b_head, dlst_new(3));
-	dlst_add_back(b_head, dlst_new(4));
-	dlst_add_front(b_head, dlst_new(2));
-	dlst_add_front(b_head, dlst_new(1));
+	stack = stack_init();
+	stack->a_head = dlst_init();
+	stack->b_head = dlst_init();
+	stack->info = info_init();
 
-	print_stacks(a_head, b_head);
+	dlst_add_back(stack->a_head, dlst_new(10));
+	dlst_add_back(stack->a_head, dlst_new(20));
+	dlst_add_front(stack->a_head, dlst_new(5));
+	dlst_add_front(stack->a_head, dlst_new(3));
 
-	dlst_push_top(a_head, b_head);
+	dlst_add_back(stack->b_head, dlst_new(3));
+	dlst_add_back(stack->b_head, dlst_new(4));
+	dlst_add_front(stack->b_head, dlst_new(2));
+	dlst_add_front(stack->b_head, dlst_new(1));
+
+	print_stacks(stack);
+
+	pb(stack);
+	pb(stack);
+	pb(stack);
+	ra(stack);
 	printf("\n");
 
-	print_stacks(a_head, b_head);
+	print_stacks(stack);
 	
 	return 0;
 }

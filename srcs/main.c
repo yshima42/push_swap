@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/12 17:32:29 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:38:17 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,8 @@ void	dlst_swap(t_dlst *a, t_dlst *b)
 		return ;
 	a_before = a->prev;
 	b_after = b->next;
+	if (a_before == b)
+		return ;
 	a_before->next = b;
 	b->prev = a_before;
 	b->next = a;
@@ -603,12 +605,8 @@ void	push_snum_toA(t_stack *stack, int size, int pivot)
 		{
 			pa(stack);
 			stack->info->n_pa++;
+			printf("a");
 		}
-		i++;
-	}
-	while(i < stack->info->n_ra)
-	{
-		rra(stack);
 		i++;
 	}
 }
@@ -618,8 +616,6 @@ bool	qsort_BtoA(t_stack *stack, int size);
 bool	qsort_AtoB(t_stack *stack, int size)
 {
 	int	pivot;
-	t_dlst	*pre_piv;
-
 	//少ない時の処理必要
 	if (size == 1)
 		return true;
@@ -651,10 +647,9 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	 	return(0);//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev, info); */ 
 	//下記を後で追加
 	//addback_to_a_tilldone(a_head, b_head);
-	pre_piv = stack->a_head->prev;
-	printf("pre_piv: %d\n", pre_piv->num);
 	printf("ra: %d\n", stack->info->n_ra);
 	qsort_AtoB(stack, stack->info->n_ra);
+	printf("hellooo\n");//ここで二回回ってる？？なぜ
 	qsort_BtoA(stack, stack->info->n_pb);
 	//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev);
 	//printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",stack->a_head->next->num, info->smallest->num);
@@ -678,7 +673,7 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	printf("pb: %d\n",stack->info->n_pb);
 	printf("pa: %d\n",stack->info->n_pa);
 	printf("size: %d\n",dlst_size(stack->b_head));
-	//qsort_AtoB(stack, 1);
+	//qsort_AtoB(stack, stack->info->n_pa);
 	//qsort_BtoA(stack, dlst_size(stack->b_head));
 	
 	return true;
@@ -686,7 +681,6 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 
 void	algo_o7(t_stack *stack)
 {
-	printf("size: %d\n",dlst_size(stack->a_head));
 	qsort_AtoB(stack, dlst_size(stack->a_head));
 }
 
