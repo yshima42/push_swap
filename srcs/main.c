@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/12 18:38:17 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/12 22:38:39 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -565,7 +565,7 @@ void	push_snum_toB(t_stack *stack, int size, int pivot)
 	i = 0;
 	while(i < size)
 	{
-		if(stack->a_head->next->num > pivot)
+		if(stack->a_head->next->num >= pivot)
 		{
 			ra(stack);
 			stack->info->n_ra++;
@@ -597,7 +597,7 @@ void	push_snum_toA(t_stack *stack, int size, int pivot)
 	i = 0;
 	while(i < size)
 	{
-		if(stack->b_head->next->num < pivot)
+		if(stack->b_head->next->num <= pivot)
 		{
 			rb(stack);
 		}
@@ -649,8 +649,9 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	//addback_to_a_tilldone(a_head, b_head);
 	printf("ra: %d\n", stack->info->n_ra);
 	qsort_AtoB(stack, stack->info->n_ra);
-	printf("hellooo\n");//ここで二回回ってる？？なぜ
-	qsort_BtoA(stack, stack->info->n_pb);
+	printf("hellooo\n");//ここで二回回ってる？？なぜ 3回？？ok
+	printf("pb: %d\n", stack->info->n_pb);//ここが1なのがおかしい
+	//qsort_BtoA(stack, stack->info->n_pb);
 	//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev);
 	//printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",stack->a_head->next->num, info->smallest->num);
 	//qsort_AtoB(a_head, b_head, a_head->next, info->smallest->prev, info);//ここでa_head側再帰
@@ -669,7 +670,7 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	pivot = find_pivot(stack->b_head, b_size);
 	printf("pivot: %d\n", pivot);
 	stack->info->n_pa = 0;
-	push_snum_toA(stack, b_size, pivot);
+	//push_snum_toA(stack, b_size, pivot);
 	printf("pb: %d\n",stack->info->n_pb);
 	printf("pa: %d\n",stack->info->n_pa);
 	printf("size: %d\n",dlst_size(stack->b_head));
