@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/13 17:49:24 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/13 20:31:00 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,67 +35,6 @@ typedef struct s_stack
 	t_info	*info;
 } t_stack;
 
-/* 
-
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
-{
-	t_list	*new_lst;
-	t_list	*new_elem;
-
-	if (!f || !lst)
-		return (NULL);
-	new_lst = NULL;
-	while (lst)
-	{
-		new_elem = ft_lstnew(f(lst->content));
-		if (!new_elem)
-		{
-			ft_lstclear(&new_lst, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&new_lst, new_elem);
-		lst = lst->next;
-	}
-	return (new_lst);
-}
-
-*/
-
-/* int add1(int a)
-{
-	a = a + 1;
-	return(a);
-}
-
-void	dlst_iter(t_dlst *dlst, int f(int))
-{
-	if (!dlst || !f)
-		return ;
-	dlst = dlst->next;
-	while (dlst->num)
-	{
-		f(dlst->num);
-		dlst = dlst->next;
-	}
-} */
-
-/* void	dlst_clear(t_dlst *head)
-{
-	t_dlst	*elem;
-
-	elem = head;
-	while (elem->next)
-	{
-		elem = elem->next;
-		free(elem);
-		printf("a");
-		//elem->prev = NULL;
-	}
-	free(head);
-	//head = NULL;
-} */
-
-//ok
 t_dlst	*dlst_new(int num)
 {
 	t_dlst	*elem;
@@ -109,7 +48,6 @@ t_dlst	*dlst_new(int num)
 	return (elem);
 }
 
-//ok
 int	dlst_size(t_dlst *head)
 {
 	size_t	size;
@@ -127,7 +65,6 @@ int	dlst_size(t_dlst *head)
 	return (size);
 } 
 
-//ok
 void	dlst_add_back(t_dlst *head, t_dlst *new)
 {
 	if (!head || !new)
@@ -138,7 +75,6 @@ void	dlst_add_back(t_dlst *head, t_dlst *new)
 	head->prev = new;
 }
 
-//ok
 void	dlst_del_front(t_dlst *head)
 {
 	t_dlst *elem;
@@ -151,7 +87,6 @@ void	dlst_del_front(t_dlst *head)
 	free(elem);
 }
 
-//ok
 void	dlst_del(t_dlst *elem)
 {
 	t_dlst	*front;
@@ -166,7 +101,6 @@ void	dlst_del(t_dlst *elem)
 	free(elem);
 }
 
-//ok
 void	dlst_del_back(t_dlst *head)
 {
 	t_dlst *elem;
@@ -179,7 +113,6 @@ void	dlst_del_back(t_dlst *head)
 	free(elem);
 }
 
-//ok
 void	dlst_add_front(t_dlst *head, t_dlst *new)
 {
 	if (!head || !new)
@@ -190,7 +123,6 @@ void	dlst_add_front(t_dlst *head, t_dlst *new)
 	head->next = new;
 }
 
-//ok
 void	dlst_swap(t_dlst *a, t_dlst *b)
 {
 	t_dlst	*a_before;
@@ -210,7 +142,6 @@ void	dlst_swap(t_dlst *a, t_dlst *b)
 	b_after->prev = a;
 }
 
-//ok
 void	dlst_swap_front(t_dlst *head)
 {
 	if (!head)
@@ -218,7 +149,6 @@ void	dlst_swap_front(t_dlst *head)
 	dlst_swap(head->next, head->next->next);
 }
 
-//ok
 void	dlst_rotate(t_dlst *head)
 {
 	t_dlst	*front;
@@ -229,7 +159,6 @@ void	dlst_rotate(t_dlst *head)
 	dlst_swap(head, front);
 }
 
-//ok
 void	dlst_rev_rotate(t_dlst *head)
 {
 	t_dlst	*back;
@@ -302,15 +231,7 @@ void	av_to_a(t_stack *stack, char **av)
 	{
 		num = ft_atoi(av[i]);
 		dlst_add_back(stack->a_head, dlst_new(num));
-		/* if (num < info->smallest->num)
-			info->smallest = a_head->prev;
-		if (num > info->biggest->num)
-			info->biggest = a_head->prev; */
 	}
-	/* info->smallest = a_head->next;
-	info->biggest = a_head->next;
-	printf("smallest: %d\n", info->smallest->num);
-	printf("biggest: %d\n", info->biggest->num); */
 }
 
 void	sa(t_stack *stack)
@@ -550,7 +471,6 @@ int	find_pivot(t_dlst *a_head, int size)
 		p = p->next;
 		i++;
 	}
-	printf("確認：%d, %d, %d\n",a_head->next->num, middle, p->prev->num);
 	return (med3 (a_head->next->num, middle, p->prev->num));
 }
 
@@ -576,8 +496,7 @@ void	push_snum_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
 		i++;
 	}
 	i = 0;
-	//元に戻してる（必要か？）
-	while(i < stack->info->n_ra)
+	while(i < *n_ra)
 	{
 		rra(stack);
 		i++;
@@ -592,47 +511,21 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	int	pivot;
 	int	n_ra;
 	int n_pb;
-	//少ない時の処理必要
+	
 	n_pb = 0;
 	n_ra = 0;
 	if (size == 1)
 		return true;
 	pivot = find_pivot(stack->a_head, size);
-	printf("pivot: %d\n", pivot);
 	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
-	printf("inside pb: %d\n", n_pb);
-/* 
-	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
-	int b_size;
-	b_size = dlst_size(stack->b_head);
-	if (b_size < 7)
-	{
-		if (b_size == 1)
-			ft_putstr_fd("no need to change", 1);
-		else if (b_size == 2)
-			algo_2(stack->b_head);
-		else if (b_size == 3)
-			algo_3(stack->b_head);
-		else if (b_size <= 6)
-			algo_u6(stack->b_head, stack->a_head);
-		//ここでsmallest見つける
-		info->smallest = stack->b_head->next;
-		printf("smallest: %d\n", info->smallest->num);
-	}
- 	else
-	 	return(0);//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev, info); */ 
-	//下記を後で追加
-	//addback_to_a_tilldone(a_head, b_head);
 	printf("ra: %d\n", n_ra);
 	qsort_AtoB(stack, n_ra);
-	printf("pb: %d\n", n_pb);//ここが1なのがおかしい
+	printf("pb: %d\n", n_pb);
 	qsort_BtoA(stack, n_pb);
-	//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev);
-	//printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",stack->a_head->next->num, info->smallest->num);
 	return (true);
 }
 
-void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pb, int *n_rb)
+void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 {
 	t_dlst	*p;
 	int i;
@@ -649,8 +542,14 @@ void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pb, int *n_rb)
 		else
 		{
 			pa(stack);
-			(*n_pb)++;
+			(*n_pa)++;
 		}
+		i++;
+	}
+	i = 0;
+	while(i < *n_rb)
+	{
+		rrb(stack);
 		i++;
 	}
 }
@@ -658,9 +557,11 @@ void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pb, int *n_rb)
 bool	qsort_BtoA(t_stack *stack, int b_size)
 {
 	int	pivot;
-	int	n_pb;
+	int	n_pa;
 	int	n_rb;
 
+	printf("-----b_sizeは%d-----\n", b_size);
+	print_stacks(stack);
 	if (b_size == 1)
 	{
 		pa(stack);
@@ -668,14 +569,13 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	}
 	pivot = find_pivot(stack->b_head, b_size);
 	printf("pivot: %d\n", pivot);
-	n_pb = 0;
+	n_pa = 0;
 	n_rb = 0;
-	(void)b_size;
-	//push_bnum_toA(stack, b_size, pivot, &n_pb, &n_rb);
-	printf("pb: %d\n",n_pb);
+	push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+	printf("pb: %d\n",n_pa);
 	printf("rb: %d\n",n_rb);
 	printf("size: %d\n",dlst_size(stack->b_head));
-	//qsort_AtoB(stack, n_pb);
+	//qsort_AtoB(stack, n_pa);
 	//qsort_BtoA(stack, n_rb);
 	
 	return true;
