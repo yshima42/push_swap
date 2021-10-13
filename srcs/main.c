@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/12 22:38:39 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/13 17:49:24 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,26 +554,24 @@ int	find_pivot(t_dlst *a_head, int size)
 	return (med3 (a_head->next->num, middle, p->prev->num));
 }
 
-void	push_snum_toB(t_stack *stack, int size, int pivot)
+void	push_snum_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
 {
 	t_dlst	*p;
-	t_dlst	*p_last;
 	int i;
 	
 	p = stack->a_head->next;
-	p_last = stack->a_head->next;
 	i = 0;
 	while(i < size)
 	{
 		if(stack->a_head->next->num >= pivot)
 		{
 			ra(stack);
-			stack->info->n_ra++;
+			(*n_ra)++;
 		}
 		else
 		{
 			pb(stack);
-			stack->info->n_pb++;
+			(*n_pb)++;
 		}
 		i++;
 	}
@@ -586,45 +584,23 @@ void	push_snum_toB(t_stack *stack, int size, int pivot)
 	}
 }
 
-void	push_snum_toA(t_stack *stack, int size, int pivot)
-{
-	t_dlst	*p;
-	t_dlst	*p_last;
-	int i;
-	
-	p = stack->b_head->next;
-	p_last = stack->b_head->next;
-	i = 0;
-	while(i < size)
-	{
-		if(stack->b_head->next->num <= pivot)
-		{
-			rb(stack);
-		}
-		else
-		{
-			pa(stack);
-			stack->info->n_pa++;
-			printf("a");
-		}
-		i++;
-	}
-}
 
 bool	qsort_BtoA(t_stack *stack, int size);
 
 bool	qsort_AtoB(t_stack *stack, int size)
 {
 	int	pivot;
+	int	n_ra;
+	int n_pb;
 	//少ない時の処理必要
+	n_pb = 0;
+	n_ra = 0;
 	if (size == 1)
 		return true;
 	pivot = find_pivot(stack->a_head, size);
-	//sizeが1だったら終わる処理を入れる
 	printf("pivot: %d\n", pivot);
-	stack->info->n_pb = 0;
-	stack->info->n_ra = 0;
-	push_snum_toB(stack, size, pivot);
+	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
+	printf("inside pb: %d\n", n_pb);
 /* 
 	//このif文内、a_headとb_headを入れ替えてるからpaなどの表示が逆になってるはず
 	int b_size;
@@ -647,20 +623,43 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	 	return(0);//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev, info); */ 
 	//下記を後で追加
 	//addback_to_a_tilldone(a_head, b_head);
-	printf("ra: %d\n", stack->info->n_ra);
-	qsort_AtoB(stack, stack->info->n_ra);
-	printf("hellooo\n");//ここで二回回ってる？？なぜ 3回？？ok
-	printf("pb: %d\n", stack->info->n_pb);//ここが1なのがおかしい
-	//qsort_BtoA(stack, stack->info->n_pb);
+	printf("ra: %d\n", n_ra);
+	qsort_AtoB(stack, n_ra);
+	printf("pb: %d\n", n_pb);//ここが1なのがおかしい
+	qsort_BtoA(stack, n_pb);
 	//qsort_AtoB(b_head, a_head, b_head->next, b_head->prev);
 	//printf("a_head->next->num: %d\ninfo->smallest->prev->num: %d\n",stack->a_head->next->num, info->smallest->num);
-	//qsort_AtoB(a_head, b_head, a_head->next, info->smallest->prev, info);//ここでa_head側再帰
 	return (true);
+}
+
+void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pb, int *n_rb)
+{
+	t_dlst	*p;
+	int i;
+	
+	p = stack->b_head->next;
+	i = 0;
+	while(i < size)
+	{
+		if(stack->b_head->next->num <= pivot)
+		{
+			rb(stack);
+			(*n_rb)++;
+		}
+		else
+		{
+			pa(stack);
+			(*n_pb)++;
+		}
+		i++;
+	}
 }
 
 bool	qsort_BtoA(t_stack *stack, int b_size)
 {
 	int	pivot;
+	int	n_pb;
+	int	n_rb;
 
 	if (b_size == 1)
 	{
@@ -669,13 +668,15 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	}
 	pivot = find_pivot(stack->b_head, b_size);
 	printf("pivot: %d\n", pivot);
-	stack->info->n_pa = 0;
-	//push_snum_toA(stack, b_size, pivot);
-	printf("pb: %d\n",stack->info->n_pb);
-	printf("pa: %d\n",stack->info->n_pa);
+	n_pb = 0;
+	n_rb = 0;
+	(void)b_size;
+	//push_bnum_toA(stack, b_size, pivot, &n_pb, &n_rb);
+	printf("pb: %d\n",n_pb);
+	printf("rb: %d\n",n_rb);
 	printf("size: %d\n",dlst_size(stack->b_head));
-	//qsort_AtoB(stack, stack->info->n_pa);
-	//qsort_BtoA(stack, dlst_size(stack->b_head));
+	//qsort_AtoB(stack, n_pb);
+	//qsort_BtoA(stack, n_rb);
 	
 	return true;
 }
