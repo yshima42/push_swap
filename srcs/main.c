@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/14 14:32:37 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/14 15:09:28 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,11 +427,15 @@ void	addback_to_a_tilldone(t_stack *stack)
 
 void	pusha_3_times(t_stack *stack)
 {
-	int i;
+	t_dlst *p;
 
-	i = -1;
-	while(++i < 3)
+	p = stack->b_head->next;
+	
+	while(p != stack->b_head)
+	{
+		p = p->next;
 		pa(stack);
+	}
 }
 
 void	algo_u6(t_stack *stack)
@@ -575,9 +579,39 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	printf("pivot: %d\n", pivot);
 	n_pa = 0;
 	n_rb = 0;
-	push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+	if (b_size == 2)
+	{
+		push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+		qsort_AtoB(stack, n_pa);
+		printf("size 2\n");
+		qsort_BtoA(stack, n_rb);
+	}
+	else if (b_size == 3)
+	{
+		push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+		qsort_AtoB(stack, n_pa);
+		printf("size 3\n");
+	
+		//qsort_BtoA(stack, 1);
+	}
+	else if (b_size == 4)
+	{
+		push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+		qsort_AtoB(stack, n_pa);
+		printf("size 4\n");
+		qsort_BtoA(stack, n_rb);
+	}
+	else if (b_size == 6)
+	{
+		push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+		qsort_AtoB(stack, n_pa);
+		printf("size 6\n");
+		qsort_BtoA(stack, n_rb);
+	}
+	else
+		;
 	//printf("----------------\n");
-	printf("ここpa: %d\n",n_pa);
+	//printf("ここpa: %d\n",n_pa);
 	//printf("rb: %d\n",n_rb);
 	//qsort_AtoB(stack, n_pa);
 	//printf("ここrb: %d\n",n_rb);
