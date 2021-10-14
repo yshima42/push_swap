@@ -6,11 +6,26 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/13 20:31:00 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/14 14:32:37 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+typedef enum e_cmd
+{
+	PA,
+	PB,
+	SA,
+	SB,
+	SS,
+	RA,
+	RB,
+	RR,
+	RRA,
+	RRB,
+	RRR,
+}	t_cmd;
 
 typedef	struct s_dlst
 {
@@ -19,20 +34,10 @@ typedef	struct s_dlst
 	struct s_dlst *next;
 } t_dlst;
 
-typedef	struct s_info
-{
-	t_dlst	*biggest;
-	t_dlst	*smallest;
-	int	n_pb;
-	int n_pa;
-	int	n_ra;
-} t_info;
-
 typedef struct s_stack
 {
 	t_dlst	*a_head;
 	t_dlst	*b_head;
-	t_info	*info;
 } t_stack;
 
 t_dlst	*dlst_new(int num)
@@ -220,7 +225,7 @@ void	print_stacks(t_stack *stack)
 	}
 }
 
-void	av_to_a(t_stack *stack, char **av)
+void	av_to_dlst(t_stack *stack, char **av)
 {
 	size_t	i;
 	int	num;
@@ -512,15 +517,14 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	int	n_ra;
 	int n_pb;
 	
+	printf("-----A_sizeは%d-----\n", size);
 	n_pb = 0;
 	n_ra = 0;
 	if (size == 1)
 		return true;
 	pivot = find_pivot(stack->a_head, size);
 	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
-	printf("ra: %d\n", n_ra);
 	qsort_AtoB(stack, n_ra);
-	printf("pb: %d\n", n_pb);
 	qsort_BtoA(stack, n_pb);
 	return (true);
 }
@@ -534,7 +538,7 @@ void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 	i = 0;
 	while(i < size)
 	{
-		if(stack->b_head->next->num <= pivot)
+		if(stack->b_head->next->num < pivot)
 		{
 			rb(stack);
 			(*n_rb)++;
@@ -560,7 +564,7 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	int	n_pa;
 	int	n_rb;
 
-	printf("-----b_sizeは%d-----\n", b_size);
+	printf("-----B_sizeは%d-----\n", b_size);
 	print_stacks(stack);
 	if (b_size == 1)
 	{
@@ -572,10 +576,11 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	n_pa = 0;
 	n_rb = 0;
 	push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
-	printf("pb: %d\n",n_pa);
-	printf("rb: %d\n",n_rb);
-	printf("size: %d\n",dlst_size(stack->b_head));
+	//printf("----------------\n");
+	printf("ここpa: %d\n",n_pa);
+	//printf("rb: %d\n",n_rb);
 	//qsort_AtoB(stack, n_pa);
+	//printf("ここrb: %d\n",n_rb);
 	//qsort_BtoA(stack, n_rb);
 	
 	return true;
@@ -584,21 +589,6 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 void	algo_o7(t_stack *stack)
 {
 	qsort_AtoB(stack, dlst_size(stack->a_head));
-}
-
-t_info	*info_init(void)
-{
-	t_info	*elem;
-
-	elem = (t_info *)malloc(sizeof(t_info));
-	if(!elem)
-	{
-		ft_putstr_fd("malloc error", 2);
-		exit(1);
-	}
-	elem->n_pa = 0;
-	elem->n_pb = 0;
-	return (elem);
 }
 
 t_stack	*stack_init(void)
@@ -623,8 +613,7 @@ int	main(int ac, char **av)
 	stack = stack_init();
 	stack->a_head = dlst_init();
 	stack->b_head = dlst_init();
-	stack->info = info_init();
-	av_to_a(stack, av);
+	av_to_dlst(stack, av);
 	n_num = ac--;
 	if (ac == 1)
 		ft_putstr_fd("no need to change", 1);
