@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/14 15:14:52 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/14 15:44:10 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,14 +225,14 @@ void	print_stacks(t_stack *stack)
 	}
 }
 
-void	av_to_dlst(t_stack *stack, char **av)
+void	av_to_dlst(t_stack *stack, int ac, char **av)
 {
-	size_t	i;
+	int	i;
 	int	num;
 	
 	i = 0;
 	
-	while (av[++i])
+	while (++i < ac)
 	{
 		num = ft_atoi(av[i]);
 		dlst_add_back(stack->a_head, dlst_new(num));
@@ -591,7 +591,7 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 		push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
 		qsort_AtoB(stack, n_pa);
 		printf("size 3\n");
-		qsort_BtoA(stack, n_rb);
+		//qsort_BtoA(stack, n_rb);
 	}
 	else if (b_size == 4)
 	{
@@ -646,7 +646,7 @@ int	main(int ac, char **av)
 	stack = stack_init();
 	stack->a_head = dlst_init();
 	stack->b_head = dlst_init();
-	av_to_dlst(stack, av);
+	av_to_dlst(stack, ac, av);
 	n_num = ac--;
 	if (ac == 1)
 		ft_putstr_fd("no need to change", 1);
