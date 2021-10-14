@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/14 15:44:10 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/14 17:22:44 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,8 +470,6 @@ int	find_pivot(t_dlst *a_head, int size)
 	t_dlst	*p;
 	
 	i = 0;
-	if (size < 2)
-		return (0);
 	p = a_head->next;
 	while(i < size)
 	{
@@ -527,6 +525,8 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	if (size == 1)
 		return true;
 	pivot = find_pivot(stack->a_head, size);
+	printf("pivot: %d\n",pivot);
+	printf("size: %d\n",size);
 	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
 	qsort_AtoB(stack, n_ra);
 	qsort_BtoA(stack, n_pb);
@@ -591,7 +591,7 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 		push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
 		qsort_AtoB(stack, n_pa);
 		printf("size 3\n");
-		//qsort_BtoA(stack, n_rb);
+		qsort_BtoA(stack, n_rb);
 	}
 	else if (b_size == 4)
 	{
