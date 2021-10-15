@@ -5,7 +5,7 @@ INCLUDES		= 	includes
 SRCS_PATH		= 	./srcs/
 BONUS_PATH		= 	./srcs_bonus/
 LIBFT_PATH		= 	./libft/
-SRCS_FILES    	= 	$(SRCS_PATH)main.c 
+SRCS_FILES    	= 	$(SRCS_PATH)main.c $(SRCS_PATH)dlst_utils.c $(SRCS_PATH)dlst_utils2.c $(SRCS_PATH)dlst_utils3.c 
 BONUS_FILES    	= 	$(BONUS_PATH)main_bonus.c 
 SRCS_OBJS		= 	$(SRCS_FILES:.c=.o)
 BONUS_OBJS		= 	$(BONUS_FILES:.c=.o)
