@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/15 17:21:16 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/15 18:15:05 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,16 +522,16 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	int	n_ra;
 	int n_pb;
 	
-	printf("-----A_sizeは%d-----\n", size);
+	//printf("-----A_sizeは%d-----\n", size);
 	n_pb = 0;
 	n_ra = 0;
 	if (size == 1)
 		return true;
 	pivot = find_pivot(stack->a_head, size);
-	printf("pivot: %d\n",pivot);
-	printf("size: %d\n",size);
+	//printf("pivot: %d\n",pivot);
+	//printf("size: %d\n",size);
 	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
-	print_stacks(stack);
+	//print_stacks(stack);
 	qsort_AtoB(stack, n_ra);
 	qsort_BtoA(stack, n_pb);
 	return (true);
@@ -572,15 +572,15 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	int	n_pa;
 	int	n_rb;
 
-	printf("-----B_sizeは%d-----\n", b_size);
-	print_stacks(stack);
+	//printf("-----B_sizeは%d-----\n", b_size);
+	//print_stacks(stack);
 	if (b_size == 1)
 	{
 		pa(stack);
 		return(true);
 	}
 	pivot = find_pivot(stack->b_head, b_size);
-	printf("pivot: %d\n", pivot);
+	//printf("pivot: %d\n", pivot);
 	n_pa = 0;
 	n_rb = 0;
 	push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
@@ -734,6 +734,6 @@ int	main(int ac, char **av)
 		algo_u6(stack);
 	else
 		algo_o7(stack);
-	print_stacks(stack);
+	//print_stacks(stack);
 	return (0);
 }
