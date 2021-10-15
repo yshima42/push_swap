@@ -6,11 +6,12 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/15 15:09:27 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/15 17:21:16 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+void	array_qsort(int *array, int start, int end);
 
 typedef enum e_cmd
 {
@@ -451,22 +452,36 @@ int	med3(int a, int b, int c)
 			return (b);
 }
 
+int	*dlst_to_array_pivot(t_dlst *dlst_head, int size)
+{
+	int	*array;
+	t_dlst *p;
+	int i;
+	
+	p = dlst_head->next;
+	array = (int *)malloc(sizeof(int) * size);
+	if (array == NULL)//perrorつける //後ほどフリーする
+		exit(EXIT_FAILURE);
+	i = -1;
+	while(++i < size)
+	{
+		array[i] = p->num;
+		p = p->next;
+	}
+	//NULL埋めしなくて大丈夫か？
+	return (array);
+}
+
 int	find_pivot(t_dlst *dlst_head, int size)
 {
-	int	i;
-	int	middle;
-	t_dlst	*p;
-	
-	i = 0;
-	p = dlst_head->next;
-	while(i < size)
-	{
-		if(i == size / 2)
-			middle = p->num;
-		p = p->next;
-		i++;
-	}
-	return (med3 (dlst_head->next->num, middle, p->prev->num));
+	int *array;
+	int	pivot;
+
+	array = dlst_to_array_pivot(dlst_head, size);
+	array_qsort(array, 0, size - 1);
+	pivot = array[(size - 1) / 2];
+	free(array);
+	return (pivot);
 }
 
 void	push_snum_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
@@ -516,8 +531,9 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	printf("pivot: %d\n",pivot);
 	printf("size: %d\n",size);
 	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
+	print_stacks(stack);
 	qsort_AtoB(stack, n_ra);
-	//qsort_BtoA(stack, n_pb);
+	qsort_BtoA(stack, n_pb);
 	return (true);
 }
 
@@ -530,7 +546,7 @@ void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 	i = 0;
 	while(i < size)
 	{
-		if(stack->b_head->next->num < pivot)
+		if(stack->b_head->next->num <= pivot)
 		{
 			rb(stack);
 			(*n_rb)++;
@@ -568,8 +584,8 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	n_pa = 0;
 	n_rb = 0;
 	push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
-	//qsort_AtoB(stack, n_pa);
-	//qsort_BtoA(stack, n_rb);
+	qsort_AtoB(stack, n_pa);
+	qsort_BtoA(stack, n_rb);
 	return true;
 }
 
@@ -694,6 +710,7 @@ void	set_order(t_stack *stack)
 	a_sub = sub_check(array);
 	array_qsort(array, 0, a_sub);
 	input_order_num(stack->a_head, array);
+	free(array);
 }
 
 int	main(int ac, char **av)
@@ -706,6 +723,7 @@ int	main(int ac, char **av)
 	stack->b_head = dlst_init();
 	av_to_dlst(stack, ac, av);
 	set_order(stack);
+	ac--;
 	if (ac == 1)
 		ft_putstr_fd("no need to change", 1);
 	else if (ac == 2)
