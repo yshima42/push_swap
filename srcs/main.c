@@ -6,11 +6,53 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/16 10:48:28 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/16 16:53:51 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+
+void	ope_export(int ope)
+{
+	if (ope == PA)
+		ft_putstr_fd("pa", 1);
+	else if (ope == PB)
+		ft_putstr_fd("pb", 1);
+	else if (ope == SA)
+		ft_putstr_fd("sa", 1);
+	else if (ope == SB)
+		ft_putstr_fd("sb", 1);
+	else if (ope == SS)
+		ft_putstr_fd("ss", 1);
+	else if (ope == RA)
+		ft_putstr_fd("ra", 1);
+	else if (ope == RB)
+		ft_putstr_fd("rb", 1);
+	else if (ope == RR)
+		ft_putstr_fd("rr", 1);
+	else if (ope == RRA)
+		ft_putstr_fd("rra", 1);
+	else if (ope == RRB)
+		ft_putstr_fd("rrb", 1);
+	else if (ope == RRR)
+		ft_putstr_fd("rrr", 1);
+	else
+		ft_putstr_fd("Error\n", 2);
+}
+
+void	ans_output(t_dlst *ans)
+{
+	t_dlst	*p;
+
+	p = ans->next;
+	while(p != ans)
+	{
+		ope_export(p->num);
+		ft_putstr_fd("\n", 1);
+		p = p->next;
+	}
+}
 
 void	args_check(int ac, char **av)
 {
@@ -35,6 +77,12 @@ void	print_stacks(t_stack *stack)
 	while(p != stack->b_head)
 	{
 		printf("B: %d\n",p->num);
+		p = p->next;
+	}
+	p = stack->ans->next;
+	while(p != stack->ans)
+	{
+		printf("ans: %d\n",p->num);
 		p = p->next;
 	}
 }
@@ -249,14 +297,11 @@ void	push_num_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
 		i++;
 	}
 	i = 0;
-	if (stack->n_ABqsort == 1)
-		ra(stack);
-	else
-		while(i < *n_ra)
-		{
-			rra(stack);
-			i++;
-		}
+	while(i < *n_ra)
+	{
+		rra(stack);
+		i++;
+	}
 }
 
 
@@ -268,7 +313,6 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	int	n_ra;
 	int n_pb;
 	
-	stack->n_ABqsort++;
 	n_pb = 0;
 	n_ra = 0;
 	if (size == 1)
@@ -285,7 +329,6 @@ void	push_num_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 	t_dlst	*p;
 	int i;
 	
-	stack->n_BAqsort++;
 	p = stack->b_head->next;
 	i = 0;
 	while(i < size)
@@ -303,14 +346,11 @@ void	push_num_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 		i++;
 	}
 	i = 0;
-	if (stack->n_BAqsort == 1)
-		rb(stack);
-	else
-		while(i < *n_rb)
-		{
-			rrb(stack);
-			i++;
-		}
+	while(i < *n_rb)
+	{
+		rrb(stack);
+		i++;
+	}
 }
 
 bool	qsort_BtoA(t_stack *stack, int b_size)
@@ -350,8 +390,7 @@ t_stack	*stack_init(void)
 	}
 	elem->a_head = dlst_init();
 	elem->b_head = dlst_init();
-	elem->n_ABqsort = 0;
-	elem->n_BAqsort = 0;
+	elem->ans = dlst_init();
 	return (elem);
 }
 
@@ -480,5 +519,6 @@ int	main(int ac, char **av)
 		algo_u6(stack);
 	else
 		algo_o7(stack);
+	ans_output(stack->ans);
 	return (0);
 }

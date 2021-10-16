@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/16 10:45:50 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:55:56 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_stack
 {
 	t_dlst	*a_head;
 	t_dlst	*b_head;
+	t_dlst	*ans;
 	int	n_ABqsort;
 	int	n_BAqsort;
 } t_stack;
