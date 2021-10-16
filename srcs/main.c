@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/15 18:55:19 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/16 10:48:28 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	args_check(int ac, char **av)
 	(void)av;
 	if (ac < 2)
 		exit (EXIT_FAILURE);
+	
 }
 
 void	print_stacks(t_stack *stack)
@@ -36,75 +37,6 @@ void	print_stacks(t_stack *stack)
 		printf("B: %d\n",p->num);
 		p = p->next;
 	}
-}
-
-void	sa(t_stack *stack)
-{
-	dlst_swap_front(stack->a_head);
-	ft_putstr_fd("sa\n", 1);
-}
-
-void	sb(t_stack *stack)
-{
-	dlst_swap_front(stack->b_head);
-	ft_putstr_fd("sb\n", 1);
-}
-
-void	ss(t_stack *stack)
-{
-	dlst_swap_front(stack->a_head);
-	dlst_swap_front(stack->b_head);
-	ft_putstr_fd("ss\n", 1);
-}
-
-void	ra(t_stack *stack)
-{
-	dlst_rotate(stack->a_head);
-	ft_putstr_fd("ra\n", 1);
-}
-
-void	rb(t_stack *stack)
-{
-	dlst_rotate(stack->b_head);
-	ft_putstr_fd("rb\n", 1);
-}
-
-void	rr(t_stack *stack)
-{
-	dlst_rotate(stack->a_head);
-	dlst_rotate(stack->b_head);
-	ft_putstr_fd("rr\n", 1);	
-}
-
-void	rra(t_stack *stack)
-{
-	dlst_rev_rotate(stack->a_head);
-	ft_putstr_fd("rra\n", 1);
-}
-
-void	rrb(t_stack *stack)
-{
-	dlst_rev_rotate(stack->b_head);
-	ft_putstr_fd("rrb\n", 1);
-}
-
-void	rrr(t_stack *stack)
-{
-	dlst_rev_rotate(stack->a_head);
-	dlst_rev_rotate(stack->b_head);
-	ft_putstr_fd("rrr\n", 1);
-}
-
-void	pa(t_stack *stack)
-{
-	dlst_push_top(stack->b_head, stack->a_head);
-	ft_putstr_fd("pa\n", 1);
-}
-
-void	pb(t_stack *stack)
-{
-	dlst_push_top(stack->a_head, stack->b_head);
-	ft_putstr_fd("pb\n", 1);
 }
 
 int	check_distance(t_dlst *min, t_dlst *max)
@@ -295,7 +227,7 @@ int	find_pivot(t_dlst *dlst_head, int size)
 	return (pivot);
 }
 
-void	push_snum_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
+void	push_num_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
 {
 	t_dlst	*p;
 	int i;
@@ -317,11 +249,14 @@ void	push_snum_toB(t_stack *stack, int size, int pivot, int *n_ra, int *n_pb)
 		i++;
 	}
 	i = 0;
-	while(i < *n_ra)
-	{
-		rra(stack);
-		i++;
-	}
+	if (stack->n_ABqsort == 1)
+		ra(stack);
+	else
+		while(i < *n_ra)
+		{
+			rra(stack);
+			i++;
+		}
 }
 
 
@@ -333,26 +268,24 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	int	n_ra;
 	int n_pb;
 	
-	//printf("-----A_sizeは%d-----\n", size);
+	stack->n_ABqsort++;
 	n_pb = 0;
 	n_ra = 0;
 	if (size == 1)
 		return true;
 	pivot = find_pivot(stack->a_head, size);
-	//printf("pivot: %d\n",pivot);
-	//printf("size: %d\n",size);
-	push_snum_toB(stack, size, pivot, &n_ra, &n_pb);
-	//print_stacks(stack);
+	push_num_toB(stack, size, pivot, &n_ra, &n_pb);
 	qsort_AtoB(stack, n_ra);
 	qsort_BtoA(stack, n_pb);
 	return (true);
 }
 
-void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
+void	push_num_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 {
 	t_dlst	*p;
 	int i;
 	
+	stack->n_BAqsort++;
 	p = stack->b_head->next;
 	i = 0;
 	while(i < size)
@@ -370,11 +303,14 @@ void	push_bnum_toA(t_stack *stack, int size, int pivot, int *n_pa, int *n_rb)
 		i++;
 	}
 	i = 0;
-	while(i < *n_rb)
-	{
-		rrb(stack);
-		i++;
-	}
+	if (stack->n_BAqsort == 1)
+		rb(stack);
+	else
+		while(i < *n_rb)
+		{
+			rrb(stack);
+			i++;
+		}
 }
 
 bool	qsort_BtoA(t_stack *stack, int b_size)
@@ -383,18 +319,15 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 	int	n_pa;
 	int	n_rb;
 
-	//printf("-----B_sizeは%d-----\n", b_size);
-	//print_stacks(stack);
 	if (b_size == 1)
 	{
 		pa(stack);
 		return(true);
 	}
 	pivot = find_pivot(stack->b_head, b_size);
-	//printf("pivot: %d\n", pivot);
 	n_pa = 0;
 	n_rb = 0;
-	push_bnum_toA(stack, b_size, pivot, &n_pa, &n_rb);
+	push_num_toA(stack, b_size, pivot, &n_pa, &n_rb);
 	qsort_AtoB(stack, n_pa);
 	qsort_BtoA(stack, n_rb);
 	return true;
@@ -412,9 +345,13 @@ t_stack	*stack_init(void)
 	elem = (t_stack *)malloc(sizeof(t_stack));
 	if(!elem)
 	{
-		ft_putstr_fd("malloc error", 2);
-		exit(1);
+		perror("Error\nmalloc");
+		exit(EXIT_FAILURE);
 	}
+	elem->a_head = dlst_init();
+	elem->b_head = dlst_init();
+	elem->n_ABqsort = 0;
+	elem->n_BAqsort = 0;
 	return (elem);
 }
 
@@ -530,8 +467,6 @@ int	main(int ac, char **av)
 
 	args_check(ac, av);
 	stack = stack_init();
-	stack->a_head = dlst_init();
-	stack->b_head = dlst_init();
 	av_to_dlst(stack, ac, av);
 	set_order(stack);
 	ac--;
@@ -545,6 +480,5 @@ int	main(int ac, char **av)
 		algo_u6(stack);
 	else
 		algo_o7(stack);
-	//print_stacks(stack);
 	return (0);
 }

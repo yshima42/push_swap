@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/15 18:56:37 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/16 10:45:50 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_stack
 {
 	t_dlst	*a_head;
 	t_dlst	*b_head;
+	int	n_ABqsort;
+	int	n_BAqsort;
 } t_stack;
 
 //dlst_utils.c
@@ -68,5 +70,21 @@ void	dlst_rev_rotate(t_dlst *head);
 void	dlst_push_top(t_dlst *from_head, t_dlst *to_head);
 t_dlst	*dlst_init(void);
 
+//operations.c
+void	sa(t_stack *stack);
+void	sb(t_stack *stack);
+void	ss(t_stack *stack);
+void	pa(t_stack *stack);
+void	pb(t_stack *stack);
+
+//operations2.c
+void	ra(t_stack *stack);
+void	rb(t_stack *stack);
+void	rr(t_stack *stack);
+
+//operations3.c
+void	rra(t_stack *stack);
+void	rrb(t_stack *stack);
+void	rrr(t_stack *stack);
 
 #endif
