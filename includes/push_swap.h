@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/16 14:55:56 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/18 17:32:17 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ typedef enum e_cmd
 	RRB,
 	RRR,
 }	t_cmd;
+
+typedef	struct s_count
+{
+	int	n_ra;
+	int	n_rb;
+	int	n_pa;
+	int	n_pb;
+} t_count;
+
 
 typedef	struct s_dlst
 {

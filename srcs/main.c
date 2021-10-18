@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/17 11:26:55 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/19 00:21:24 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
 
 void	algo_2(t_dlst *a_head, t_stack *stack)
 {
-	if (a_head->next->num > a_head->prev->num)
+	if (a_head->next->num > a_head->next->next->num)
 		sa(stack);
 	else
-		ft_putstr_fd("no need to change\n", 1);
+		;//ft_putstr_fd("no need to change\n", 1);
 }
 
 void	algo_3(t_dlst *a_head, t_stack *stack)
@@ -142,7 +142,7 @@ void	algo_3(t_dlst *a_head, t_stack *stack)
 	
 	a = a_head->next->num;
 	b = a_head->next->next->num;
-	c = a_head->prev->num;
+	c = a_head->next->next->next->num;
 	if (b < a && a < c)
 		sa(stack);
 	else if (b < c && c < a)
@@ -160,7 +160,7 @@ void	algo_3(t_dlst *a_head, t_stack *stack)
 	else if (c < a && a < b)
 		rra(stack);
 	else
-		ft_putstr_fd("same numbers or no need to change\n", 2);//エラーハンドリングする
+		;//エラーハンドリングする
 }
 
 void	pushb_till_3(t_stack *stack)
@@ -243,6 +243,14 @@ int	med3(int a, int b, int c)
 			return (b);
 }
 
+void	init_count(t_count *count)
+{
+	count->n_pb = 0;
+	count->n_ra = 0;
+	count->n_rb = 0;
+	count->n_pa = 0;
+}
+
 int	*dlst_to_array_pivot(t_dlst *dlst_head, int size)
 {
 	int	*array;
@@ -269,67 +277,67 @@ void	find_pivot(t_dlst *dlst_head, int size, int *s_pivot, int *l_pivot)
 
 	array = dlst_to_array_pivot(dlst_head, size);
 	array_qsort(array, 0, size - 1);
-	*s_pivot = array[(size - 1) / 3];
-	*l_pivot = array[(size - 1) * 2 / 3]; 
+	*s_pivot = array[size / 3];
+	*l_pivot = array[size * 2 / 3];
 	free(array);
 }
 
-void	push_num_toB(t_stack *stack, int size, int s_pivot, int l_pivot, int *n_ra, int *n_pb, int *n_rb)
+void	push_num_toB(t_stack *stack, int size, int s_pivot, int l_pivot, t_count *count)
 {
 	int i;
 	int j;
 	
 	i = 0;
+
 	while(i < size)
 	{
-		if(stack->a_head->next->num > l_pivot)
+		if(stack->a_head->next->num >= l_pivot)
 		{
 			ra(stack);
-			(*n_ra)++;
+			(count->n_ra)++;
 		}
 		else
 		{
 			pb(stack);
-			(*n_pb)++;
-			if (stack->b_head->next->num >= s_pivot)//ここに=をつけるかどうか検討
+			(count->n_pb)++;
+			if (stack->b_head->next->num > s_pivot)
 			{
 				rb(stack);
-				(*n_rb)++;
+				(count->n_rb)++;
 			}
 		}
 		i++;
 	}
 	i = 0;
 	j = 0;
-	printf("ra:%d, rb:%d\n", *n_ra, *n_rb);
-	if (*n_ra < *n_rb)
+	if (count->n_ra < count->n_rb)
 	{
-		while(i < *n_ra)
+		while(i < count->n_ra)
 		{
 			rrr(stack);
 			i++;
 		}
-		while (j < *n_rb - *n_ra)
+		while (j < count->n_rb - count->n_ra)
 		{
 			rrb(stack);
 			j++;
 		}
 	}
-	else if (*n_rb < *n_ra)
+	else if (count->n_rb < count->n_ra)
 	{
-		while(i < *n_rb)
+		while(i < count->n_rb)
 		{
 			rrr(stack);
 			i++;
 		}
-		while (j < *n_ra - *n_rb)
+		while (j < count->n_ra - count->n_rb)
 		{
 			rra(stack);
 			j++;
 		}
 	}
 	else
-		while(i < *n_rb)
+		while(i < count->n_rb)
 			{
 				rrr(stack);
 				i++;
@@ -339,83 +347,287 @@ void	push_num_toB(t_stack *stack, int size, int s_pivot, int l_pivot, int *n_ra,
 
 bool	qsort_BtoA(t_stack *stack, int size);
 
+bool	checker(t_dlst *a_head)
+{
+	if (a_head->next->num > a_head->next->next->num && a_head->next->next->num > a_head->next->next->next->num)
+		return(1);
+	else
+		return(0);
+}
+
+void	temp_algo_3(t_dlst *a_head, t_stack *stack)
+{
+	int a;
+	int b;
+	int c;
+	
+	a = a_head->next->num;
+	b = a_head->next->next->num;
+	c = a_head->next->next->next->num;
+	if (b < a && a < c)
+		sa(stack);
+	else if (b < c && c < a)
+	{
+		sa(stack);
+		ra(stack);
+		sa(stack);
+		rra(stack);
+	}
+	else if (c < b && b < a)
+	{
+		sa(stack);
+		ra(stack);
+		sa(stack);
+		rra(stack);
+		sa(stack);
+	}
+	else if (a < c && c < b)
+	{
+		ra(stack);
+		sa(stack);
+		rra(stack);
+	}
+	else if (c < a && a < b)
+	{
+		ra(stack);
+		sa(stack);
+		rra(stack);
+		sa(stack);
+	}
+	else
+		;//エラーハンドリングする
+}
+
 bool	qsort_AtoB(t_stack *stack, int size)
 {
 	int	s_pivot;
 	int	l_pivot;
-	int	n_ra;
-	int n_pb;
-	int	n_rb;
+	t_count	count;
 	
-	n_pb = 0;
-	n_ra = 0;
-	n_rb = 0;
+	init_count(&count);
+	if (size == 0)
+		return (true);
 	if (size == 1)
 		return true;
+	if (size == 2)
+	{
+		algo_2(stack->a_head, stack);
+		return true;
+	}
+	if (size == 3)
+	{
+		temp_algo_3(stack->a_head, stack);
+		return true;
+	} 
 	find_pivot(stack->a_head, size, &s_pivot, &l_pivot);
-	push_num_toB(stack, size, s_pivot, l_pivot, &n_ra, &n_pb, &n_rb);
-	//print_stacks(stack);
-	qsort_AtoB(stack, n_ra);
-	qsort_BtoA(stack, n_pb);
+	/* printf("---AtoB---\ns_p: %d\nl_p: %d\n", s_pivot, l_pivot);
+	//printf("---0st---\n");
+	print_stacks(stack);
+	printf("size: %d\n",size); */
+	push_num_toB(stack, size, s_pivot, l_pivot, &count);
+	/* printf("---1st---\n");
+	print_stacks(stack);*/
+	//printf("ra: %d\n",count.n_ra);
+	qsort_AtoB(stack, count.n_ra); 
+	/* printf("---2nd---\n");
+	print_stacks(stack); */
+	/* printf("n_rb: %d\n", count.n_rb);
+	printf("n_pb: %d, n_rb: %d\n",count.n_pb,  count.n_rb); */
+	qsort_BtoA(stack, count.n_rb);
+	/* printf("---3rd---\n");
+	print_stacks(stack);
+	printf("n_pb: %d, n_rb: %d\n",count.n_pb,  count.n_rb);
+	printf("size: %d\n", size); */
+	qsort_BtoA(stack, count.n_pb - count.n_rb);
+	/* printf("---END---\n");
+	print_stacks(stack); */
 	return (true);
 }
 
-/* void	push_num_toA(t_stack *stack, int size, int s_pivot, int l_pivot, int *n_pa, int *n_rb, int *n_ra)
+void	push_num_toA(t_stack *stack, int size, int s_pivot, int l_pivot, t_count *count)
 {
-	t_dlst	*p;
 	int i;
 	
-	p = stack->b_head->next;
 	i = 0;
+	/* printf("---0.1---\n");
+	print_stacks(stack);
+	printf("s_pivot: %d, l_pivot:%d\n",s_pivot, l_pivot); */
 	while(i < size)
 	{
-		if(stack->b_head->next->num <= l_pivot)
+		//printf("s_pivot: %d\n",s_pivot);
+		if(stack->b_head->next->num <= s_pivot)
 		{
 			rb(stack);
-			(*n_rb)++;
+			(count->n_rb)++;
+			//print_stacks(stack);
 		}
 		else
 		{
 			pa(stack);
-			(*n_pa)++;
+			(count->n_pa)++;
+			/* print_stacks(stack);
+			printf("l_pivot: %d\n",l_pivot); */
+			if (stack->a_head->next->num < l_pivot)
+			{
+				ra(stack);
+				(count->n_ra)++;
+				//print_stacks(stack);
+			}
 		}
 		i++;
 	}
-	i = 0;
-	while(i < *n_rb)
+	/* printf("---0---\n");
+	print_stacks(stack);
+	printf("pa: %d, ra: %d\n", count->n_pa, count->n_ra);
+	printf("pa - ra: %d\n", count->n_pa - count->n_ra); */
+	/* while(i < *n_rb)
 	{
 		rrb(stack);
 		i++;
+	} */
+}
+
+void	revierse_stack(t_stack *stack, t_count *count)
+{
+	int	i;
+	int	j;
+	
+	i = 0;
+	j = 0;
+	/* printf("ra: %d, rb: %d\n", *n_ra, *n_rb); */
+	if (count->n_ra < count->n_rb)
+	{
+		while(i < count->n_ra)
+		{
+			rrr(stack);
+			i++;
+		}
+		while (j < count->n_rb - count->n_ra)
+		{
+			rrb(stack);
+			j++;
+		}
 	}
-} */
+	else if (count->n_rb < count->n_ra)
+	{
+		while(i < count->n_rb)
+		{
+			rrr(stack);
+			i++;
+		}
+		while (j < count->n_ra - count->n_rb)
+		{
+			rra(stack);
+			j++;
+		}
+	}
+	else
+		while(i < count->n_rb)
+			{
+				rrr(stack);
+				i++;
+			}
+}
+
+void	_algo_2(t_dlst *head, t_stack *stack)
+{
+	if (head->next->num < head->next->next->num)
+		sb(stack);
+	else
+		;//ft_putstr_fd("no need to change\n", 1);
+}
+
+void	_algo_3(t_dlst *a_head, t_stack *stack)
+{
+	int a;
+	int b;
+	int c;
+	
+	a = a_head->next->num;
+	b = a_head->next->next->num;
+	c = a_head->next->next->next->num;
+	if (b < a && a < c)
+	{
+		ra(stack);
+		sa(stack);
+		rra(stack);
+		sa(stack);
+	}
+	else if (b < c && c < a)
+	{
+		ra(stack);
+		sa(stack);
+		rra(stack);
+	}
+	else if (c < b && b < a)
+		;
+	else if (a < c && c < b)
+	{
+		sa(stack);
+		ra(stack);
+		sa(stack);
+		rra(stack);
+	}
+	else if (c < a && a < b)
+		sa(stack);
+	else
+		;//エラーハンドリングする
+}
 
 bool	qsort_BtoA(t_stack *stack, int b_size)
 {
 	int	s_pivot;
 	int	l_pivot;
-	int	n_pa;
-	int	n_rb;
-	int	n_ra;
+	t_count	count;
 
-	n_pa = 0;
-	n_rb = 0;
-	n_ra = 0;
+	init_count(&count);
+	//printf("ここb_size: %d\n",b_size);
+	if (b_size == 0)
+		return (true);	
 	if (b_size == 1)
 	{
 		pa(stack);
 		return(true);
 	}
+	if (b_size == 2)
+	{
+		_algo_2(stack->b_head, stack);
+		pa(stack);
+		pa(stack);
+		return (true);
+	}
+	/* if (b_size == 3)
+	{
+		_algo_3(stack->b_head, stack);
+		pa(stack);
+		pa(stack);
+		pa(stack);
+		return true;
+	} */
 	find_pivot(stack->b_head, b_size, &s_pivot, &l_pivot);
-	printf("%d\n%d\n", s_pivot, l_pivot);
-	//push_num_toA(stack, b_size, s_pivot, l_pivot, &n_pa, &n_rb, &n_ra);
-	//qsort_AtoB(stack, n_pa);
-	//qsort_BtoA(stack, n_rb);
+	/* printf("---BtoA---\ns_p: %d\nl_p: %d\n", s_pivot, l_pivot);
+	print_stacks(stack);
+	printf("size: %d\n", b_size); */
+	push_num_toA(stack, b_size, s_pivot, l_pivot, &count);
+	qsort_AtoB(stack, count.n_pa - count.n_ra);//ここ怪しい
+	revierse_stack(stack, &count);
+	/* printf("pa: %d, ra: %d\n",n_pa, n_ra);
+	printf("n_ra: %d\n",n_ra);
+	printf("---1---\n");
+	print_stacks(stack); */
+	qsort_AtoB(stack, count.n_ra);
+	/* printf("---2---\n");
+	print_stacks(stack); */
+	qsort_BtoA(stack, count.n_rb);
+	/* printf("---3---\n");
+	print_stacks(stack); */
 	return true;
 }
 
 void	algo_o7(t_stack *stack)
 {
 	qsort_AtoB(stack, dlst_size(stack->a_head));
+	//print_stacks(stack);
 }
 
 t_stack	*stack_init(void)
@@ -558,7 +770,7 @@ int	main(int ac, char **av)
 	stack = stack_init();
 	av_to_dlst(stack, ac, av);
 	set_order(stack);
-	dlst_putdummy(stack->b_head);
+	//dlst_putdummy(stack->b_head);
 	ac--;
 	if (ac == 1)
 		ft_putstr_fd("no need to change", 1);
@@ -571,5 +783,6 @@ int	main(int ac, char **av)
 	else
 		algo_o7(stack);
 	//ans_output(stack->ans);
+	//print_stacks(stack);
 	return (0);
 }
