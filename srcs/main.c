@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 01:32:19 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:42:26 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,6 @@ void	push_num_toB(t_stack *stack, int size, int s_pivot, int l_pivot, t_count *c
 	int j;
 	
 	i = 0;
-
 	while(i < size)
 	{
 		if(stack->a_head->next->num >= l_pivot)
@@ -392,6 +391,23 @@ void	temp_algo_3(t_dlst *a_head, t_stack *stack)
 		;//エラーハンドリングする
 }
 
+bool	A_is_sorted(t_dlst *a_head, int size)
+{
+	t_dlst	*p;
+	int i;
+
+	p = a_head->next;
+	i = 0;
+	while(i < size)
+	{
+		if (p->num > p->next->num)
+			return(false);
+		p = p->next;
+		i++;
+	}
+	return(true);
+}
+
 bool	qsort_AtoB(t_stack *stack, int size)
 {
 	int	s_pivot;
@@ -412,7 +428,9 @@ bool	qsort_AtoB(t_stack *stack, int size)
 	{
 		temp_algo_3(stack->a_head, stack);
 		return true;
-	} 
+	}
+/* 	if (A_is_sorted(stack->a_head, size))
+		return true; */
 	find_pivot(stack->a_head, size, &s_pivot, &l_pivot);
 	/* printf("---AtoB---\ns_p: %d\nl_p: %d\n", s_pivot, l_pivot);
 	//printf("---0st---\n");
@@ -570,6 +588,23 @@ void	_algo_3(t_dlst *a_head, t_stack *stack)
 	};//エラーハンドリングする
 }
 
+bool	B_is_sorted(t_dlst *a_head, int size)
+{
+	t_dlst	*p;
+	int i;
+
+	p = a_head->next;
+	i = 0;
+	while(i < size)
+	{
+		if (p->num < p->next->num)
+			return(false);
+		p = p->next;
+		i++;
+	}
+	return(true);
+}
+
 bool	qsort_BtoA(t_stack *stack, int b_size)
 {
 	int	s_pivot;
@@ -596,6 +631,15 @@ bool	qsort_BtoA(t_stack *stack, int b_size)
 		_algo_3(stack->b_head, stack);
 		return true;
 	}
+	/* if (B_is_sorted(stack->b_head, b_size))
+	{
+		int i = 0;
+		while(i < b_size)
+		{
+			pa(stack);
+			i++;
+		}
+	} */
 	find_pivot(stack->b_head, b_size, &s_pivot, &l_pivot);
 	push_num_toA(stack, b_size, s_pivot, l_pivot, &count);
 	qsort_AtoB(stack, count.n_pa - count.n_ra);//ここ怪しい
@@ -732,17 +776,16 @@ void	set_order(t_stack *stack)
 	free(array);
 }
 
-void
-	dlst_replace(t_dlst *ans, int ope)
+void	dlst_replace(t_dlst *ans, int ope)
 {
-	t_dlst	*p;
-
-	p = ans->next->next->next;
-	free(ans->next->next);
-	ans->next->next = NULL;
+	dlst_del_front(ans->next);
 	ans->next->num = ope;
-	ans->next->next = p;
-	p->prev = ans->next;
+}
+
+void	dlst_delete(t_dlst *p)
+{
+	dlst_del_front(p);
+	dlst_del_front(p);
 }
 
 void	ans_shorten(t_dlst *ans)
@@ -754,16 +797,26 @@ void	ans_shorten(t_dlst *ans)
 	{
 		if (p->next->num == SA && p->next->next->num == SB)
 			dlst_replace(p, SS);
-		if (p->next->num == SB && p->next->next->num == SA)
+		else if (p->next->num == SB && p->next->next->num == SA)
 			dlst_replace(p, SS);
-		if (p->next->num == RA && p->next->next->num == RB)
+		else if (p->next->num == RA && p->next->next->num == RB)
 			dlst_replace(p, RR);
-		if (p->next->num == RB && p->next->next->num == RA)
+		else if (p->next->num == RB && p->next->next->num == RA)
 			dlst_replace(p, RR);
-		if (p->next->num == RRA && p->next->next->num == RRB)
+		else if (p->next->num == RRA && p->next->next->num == RRB)
 			dlst_replace(p, RR);
-		if (p->next->num == RRB && p->next->next->num == RRA)
+		else if (p->next->num == RRB && p->next->next->num == RRA)
 			dlst_replace(p, RRR);
+		else if (p->next->num == RA && p->next->next->num == RRA)
+			dlst_delete(p);
+		else if (p->next->num == RRA && p->next->next->num == RA)
+			dlst_delete(p);
+		else if (p->next->num == RB && p->next->next->num == RRB)
+			dlst_delete(p);
+		else if (p->next->num == RRB && p->next->next->num == RB)
+			dlst_delete(p);
+		else
+			;
 		p = p->next;
 	}
 }
@@ -788,6 +841,8 @@ int	main(int ac, char **av)
 	else
 		algo_o7(stack);
 	ans_shorten(stack->ans);
+	ans_shorten(stack->ans);
 	ans_output(stack->ans);
+	//print_stacks(stack);
 	return (0);
 }
