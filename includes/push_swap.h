@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 15:48:50 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 19:19:23 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdbool.h>
 
 # include "../libft/libft.h"
+
+# define ARGS_LIMIT 2000
 
 typedef enum e_cmd
 {
@@ -118,6 +120,7 @@ void	ans_cut(t_dlst *ans);
 
 //atob_qsort.c
 bool	a_upto3(t_stack *stack, int size);
+bool	is_sorted(t_dlst *head, int size);
 bool	atob_qsort(t_stack *stack, int size);
 
 bool	btoa_qsort(t_stack *stack, int size);

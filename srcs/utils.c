@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:27:00 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 15:19:15 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 20:27:24 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,20 @@ static char	*del_spaces(char const *str)
 
 void	error_exit(t_stack *stack)
 {
-	all_free(stack);
 	ft_putstr_fd("Error\n", 2);
+	all_free(stack);
 	exit(EXIT_FAILURE);
 }
 
 void	c_is_num_check(char c, t_stack *stack)
 {
 	if (c < '0' || c > '9')
+		error_exit(stack);
+}
+
+void	after_check(char c, t_stack *stack)
+{
+	if (c)
 		error_exit(stack);
 }
 
@@ -60,9 +66,11 @@ int	ps_atoi(const char *str, t_stack *stack)
 		result = result * 10 + (no_spaces_str[i] - '0');
 		i++;
 		if ((sign == -1 && result > 2147483648)
-			|| (sign == 1 && result > 2147483647))
+			|| (sign == 1 && result > 2147483647)
+			|| (sign == -1 && result == 0))
 			error_exit(stack);
 	}
+	after_check(no_spaces_str[i], stack);
 	return ((int)result * sign);
 }
 
