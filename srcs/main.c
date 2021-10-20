@@ -140,6 +140,6 @@ int	main(int ac, char **av)
 	ans_cut(stack->ans);
 	ans_cut(stack->ans);
 	ans_output(stack->ans);
-	//allfreeする
+	all_free(stack);
 	return (0);
 }
