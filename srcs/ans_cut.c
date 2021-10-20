@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 20:40:34 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:40:35 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 11:36:09 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	dlst_replace(t_dlst *ans, int ope)
 	ans->next->num = ope;
 }
 
-static void	dlst_cancell(t_dlst *p)
+static void	dlst_cancel(t_dlst *p)
 {
 	dlst_del_front(p);
 	dlst_del_front(p);
@@ -40,16 +40,16 @@ static void	ans_replace(t_dlst *p)
 		dlst_replace(p, RRR);
 }
 
-static void	ans_cancell(t_dlst *p)
+static void	ans_cancel(t_dlst *p)
 {
 	if (p->next->num == RA && p->next->next->num == RRA)
-		dlst_cancell(p);
+		dlst_cancel(p);
 	else if (p->next->num == RRA && p->next->next->num == RA)
-		dlst_cancell(p);
+		dlst_cancel(p);
 	else if (p->next->num == RB && p->next->next->num == RRB)
-		dlst_cancell(p);
+		dlst_cancel(p);
 	else if (p->next->num == RRB && p->next->next->num == RB)
-		dlst_cancell(p);
+		dlst_cancel(p);
 }
 
 void	ans_cut(t_dlst *ans)
@@ -60,7 +60,7 @@ void	ans_cut(t_dlst *ans)
 	while (p != ans)
 	{
 		ans_replace(p);
-		ans_cancell(p);
+		ans_cancel(p);
 		p = p->next;
 	}
 }

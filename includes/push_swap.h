@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:19:22 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 11:41:01 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ void	find_pivots(t_dlst *dlst_head, int size, t_pivots *pivots);
 
 void	ans_cut(t_dlst *ans);
 
-bool	qsort_atob(t_stack *stack, int size);
+bool	atob_qsort(t_stack *stack, int size);
 
-bool	qsort_btoa(t_stack *stack, int size);
+bool	btoa_qsort(t_stack *stack, int size);
 
 //main.c
 void	algo_2(t_dlst *a_head, t_stack *stack);

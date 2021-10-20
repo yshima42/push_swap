@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:26:05 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 13:46:48 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ bool	over_7(t_stack *stack, int size)
 		return (true);
 	find_pivots_1st(stack->a_head, size, &pivots);
 	push_to_b_1st(stack, size, pivots, &count);
-	qsort_atob(stack, count.n_ra);
-	qsort_btoa(stack, count.n_rb);
-	qsort_btoa(stack, count.n_pb - count.n_rb);
+	atob_qsort(stack, count.n_ra);
+	btoa_qsort(stack, count.n_rb);
+	btoa_qsort(stack, count.n_pb - count.n_rb);
 	return (true);
 }
 
@@ -116,5 +116,6 @@ int	main(int ac, char **av)
 	ans_cut(stack->ans);
 	ans_cut(stack->ans);
 	ans_output(stack->ans);
+	//allfreeする
 	return (0);
 }

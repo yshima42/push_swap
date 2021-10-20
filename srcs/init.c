@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 20:47:39 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:22:26 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 13:41:30 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_stack	*init_stack(void)
 	elem = (t_stack *)malloc(sizeof(t_stack));
 	if (!elem)
 	{
-		perror("Error\nmalloc");
+		ft_putstr_fd("Error\nmalloc", 2);
 		exit(EXIT_FAILURE);
 	}
 	elem->a_head = init_dlst();

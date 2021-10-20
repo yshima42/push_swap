@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 21:16:20 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 09:34:14 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 11:39:43 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ bool	a_is_sorted(t_dlst *head, int size)
 	return (true);
 }
 
-bool	qsort_atob(t_stack *stack, int size)
+bool	atob_qsort(t_stack *stack, int size)
 {
 	t_pivots	pivots;
 	t_count		count;
@@ -109,8 +109,8 @@ bool	qsort_atob(t_stack *stack, int size)
 	find_pivots(stack->a_head, size, &pivots);
 	push_to_b(stack, size, pivots, &count);
 	reverse_stack(stack, &count);
-	qsort_atob(stack, count.n_ra);
-	qsort_btoa(stack, count.n_rb);
-	qsort_btoa(stack, count.n_pb - count.n_rb);
+	atob_qsort(stack, count.n_ra);
+	btoa_qsort(stack, count.n_rb);
+	btoa_qsort(stack, count.n_pb - count.n_rb);
 	return (true);
 }
