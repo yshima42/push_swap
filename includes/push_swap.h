@@ -147,9 +147,10 @@ void	algo_3(t_dlst *a_head, t_stack *stack);
 void	algo_2(t_dlst *a_head, t_stack *stack);
 
 //utils.c
-void	av_to_dlst(t_dlst *head, int n_nums, char **av);
-int		ps_atoi(const char *str);
+void	av_to_dlst(t_dlst *head, int n_nums, char **av, t_stack *stack);
 
+//all_free.c
+void	all_free(t_stack *stack);
 
 //後で消す
 void	array_qsort(int *array, int start, int end);

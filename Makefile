@@ -10,7 +10,7 @@ SRCS_FILES    	= 	$(SRCS_PATH)main.c $(SRCS_PATH)dlst_utils1.c $(SRCS_PATH)dlst_
 					$(SRCS_PATH)args_check.c $(SRCS_PATH)init.c $(SRCS_PATH)reverse_stack.c $(SRCS_PATH)find_pivots.c \
 					$(SRCS_PATH)ans_cut.c $(SRCS_PATH)atob_qsort.c $(SRCS_PATH)a_3_algo_utils.c $(SRCS_PATH)btoa_qsort.c \
 					$(SRCS_PATH)b_3_algo_utils.c $(SRCS_PATH)algo_456.c $(SRCS_PATH)algo_3.c $(SRCS_PATH)algo_2.c \
-					$(SRCS_PATH)utils.c
+					$(SRCS_PATH)utils.c $(SRCS_PATH)all_free.c
 BONUS_FILES    	= 	$(BONUS_PATH)main_bonus.c
 SRCS_OBJS		= 	$(SRCS_FILES:.c=.o)
 BONUS_OBJS		= 	$(BONUS_FILES:.c=.o)

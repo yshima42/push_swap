@@ -100,32 +100,7 @@ void	upto_6(t_stack *stack, int n_ags)
 		algo_456(stack);
 }
 
-void	ps_dlst_free(t_dlst *head)
-{
-	t_dlst	*p;
-
-	p = head->next;
-	while(p != head)
-	{
-		p = p->next;
-		free (p->prev);
-	}
-	free (head);
-}
-
-void	ps_all_free(t_stack *stack)
-{
-	if (stack->a_head)
-		ps_dlst_free(stack->a_head);
-	if (stack->b_head)
-		ps_dlst_free(stack->b_head);
-	if (stack->ans)
-		ps_dlst_free(stack->ans);
-	if (stack)
-		free(stack);
-}
-
-void	same_num_check(t_dlst *head)
+void	same_num_check(t_dlst *head, t_stack *stack)
 {
 	t_dlst	*p;
 	t_dlst	*q;
@@ -138,6 +113,7 @@ void	same_num_check(t_dlst *head)
 		{
 			if (p->num == q->num)
 			{
+				all_free(stack);
 				ft_putstr_fd("Error\n", 2);
 				exit(EXIT_FAILURE);
 			}
@@ -155,10 +131,8 @@ int	main(int ac, char **av)
 	n_nums = ac - 1;
 	args_check(n_nums, av);
 	stack = init_stack();
-	av_to_dlst(stack->a_head, n_nums, av);
-	same_num_check(stack->a_head);
-	ps_all_free(stack);
-	exit(0);
+	av_to_dlst(stack->a_head, n_nums, av, stack);
+	same_num_check(stack->a_head, stack);
 	if (n_nums <= 6)
 		upto_6(stack, n_nums);
 	else

@@ -25,19 +25,20 @@ static char	*del_spaces(char const *str)
 	return (no_spaces_str);
 }
 
-void	error_exit(void)
+void	error_exit(t_stack *stack)
 {
+	all_free(stack);
 	ft_putstr_fd("Error\n", 2);
 	exit(EXIT_FAILURE);
 }
 
-void	c_is_num_check(char c)
+void	c_is_num_check(char c, t_stack *stack)
 {
 	if (c < '0' || c > '9')
-		error_exit();
+		error_exit(stack);
 }
 
-int	ps_atoi(const char *str)
+int	ps_atoi(const char *str, t_stack *stack)
 {
 	size_t	i;
 	int		sign;
@@ -53,19 +54,19 @@ int	ps_atoi(const char *str)
 		sign = -1;
 		i++;
 	}
-	c_is_num_check(no_spaces_str[i]);
+	c_is_num_check(no_spaces_str[i], stack);
 	while (no_spaces_str[i] >= '0' && no_spaces_str[i] <= '9')
 	{
 		result = result * 10 + (no_spaces_str[i] - '0');
 		i++;
 		if ((sign == -1 && result > 2147483648)
 			|| (sign == 1 && result > 2147483647))
-			error_exit();
+			error_exit(stack);
 	}
 	return ((int)result * sign);
 }
 
-void	av_to_dlst(t_dlst *head, int n_nums, char **av)
+void	av_to_dlst(t_dlst *head, int n_nums, char **av, t_stack *stack)
 {
 	int	i;
 	int	num;
@@ -73,7 +74,7 @@ void	av_to_dlst(t_dlst *head, int n_nums, char **av)
 	i = 0;
 	while (++i <= n_nums)
 	{
-		num = ps_atoi(av[i]);
+		num = ps_atoi(av[i], stack);
 		if (INT32_MAX < num || num < INT32_MIN)
 		{
 			ft_putstr_fd("Error\n", 2);
