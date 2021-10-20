@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:53:29 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/15 18:53:29 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/19 20:44:50 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	dlst_del_back(t_dlst *head)
 {
-	t_dlst *elem;
-	
+	t_dlst	*elem;
+
 	if (!head)
 		return ;
 	elem = head->prev;
@@ -38,7 +38,7 @@ void	dlst_swap(t_dlst *a, t_dlst *b)
 {
 	t_dlst	*a_before;
 	t_dlst	*b_after;
-	
+
 	if (!a || !b)
 		return ;
 	a_before = a->prev;
@@ -63,7 +63,7 @@ void	dlst_swap_front(t_dlst *head)
 void	dlst_rotate(t_dlst *head)
 {
 	t_dlst	*front;
-	
+
 	if (!head)
 		return ;
 	front = head->next;

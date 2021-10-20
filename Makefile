@@ -5,8 +5,13 @@ INCLUDES		= 	includes
 SRCS_PATH		= 	./srcs/
 BONUS_PATH		= 	./srcs_bonus/
 LIBFT_PATH		= 	./libft/
-SRCS_FILES    	= 	$(SRCS_PATH)main.c $(SRCS_PATH)dlst_utils.c $(SRCS_PATH)dlst_utils2.c $(SRCS_PATH)dlst_utils3.c $(SRCS_PATH)operations.c $(SRCS_PATH)operations2.c $(SRCS_PATH)operations3.c
-BONUS_FILES    	= 	$(BONUS_PATH)main_bonus.c 
+SRCS_FILES    	= 	$(SRCS_PATH)main.c $(SRCS_PATH)dlst_utils1.c $(SRCS_PATH)dlst_utils2.c $(SRCS_PATH)dlst_utils3.c \
+					$(SRCS_PATH)operations1.c $(SRCS_PATH)operations2.c $(SRCS_PATH)operations3.c $(SRCS_PATH)output.c \
+					$(SRCS_PATH)args_check.c $(SRCS_PATH)init.c $(SRCS_PATH)reverse_stack.c $(SRCS_PATH)find_pivots.c \
+					$(SRCS_PATH)ans_cut.c $(SRCS_PATH)qsort_atob.c $(SRCS_PATH)a_3_algo_utils.c $(SRCS_PATH)qsort_btoa.c \
+					$(SRCS_PATH)b_3_algo_utils.c $(SRCS_PATH)algo_456.c $(SRCS_PATH)algo_3.c $(SRCS_PATH)algo_2.c \
+					$(SRCS_PATH)utils.c
+BONUS_FILES    	= 	$(BONUS_PATH)main_bonus.c
 SRCS_OBJS		= 	$(SRCS_FILES:.c=.o)
 BONUS_OBJS		= 	$(BONUS_FILES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:15:22 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 00:45:22 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/19 20:48:46 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ void	rra(t_stack *stack)
 {
 	dlst_rev_rotate(stack->a_head);
 	dlst_add_back(stack->ans, dlst_new(RRA));
-	//ft_putstr_fd("rra\n", 1);
 }
 
 void	rrb(t_stack *stack)
 {
 	dlst_rev_rotate(stack->b_head);
 	dlst_add_back(stack->ans, dlst_new(RRB));
-	//ft_putstr_fd("rrb\n", 1);
 }
 
 void	rrr(t_stack *stack)
@@ -31,5 +29,4 @@ void	rrr(t_stack *stack)
 	dlst_rev_rotate(stack->a_head);
 	dlst_rev_rotate(stack->b_head);
 	dlst_add_back(stack->ans, dlst_new(RRR));
-	//ft_putstr_fd("rrr\n", 1);
 }

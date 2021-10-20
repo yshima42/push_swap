@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 11:48:36 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 11:19:22 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <stdbool.h>
 
 # include "../libft/libft.h"
-
-void	array_qsort(int *array, int start, int end);
 
 typedef enum e_cmd
 {
@@ -43,11 +41,15 @@ typedef	struct s_count
 	int	n_pb;
 } t_count;
 
+typedef	struct s_pivots
+{
+	int	l_pivot;
+	int	s_pivot;
+} t_pivots;
 
 typedef	struct s_dlst
 {
 	struct s_dlst *prev;
-	int order;
 	int num;
 	struct s_dlst *next;
 } t_dlst;
@@ -78,7 +80,6 @@ void	dlst_rotate(t_dlst *head);
 //dlst_utils3.c
 void	dlst_rev_rotate(t_dlst *head);
 void	dlst_push_top(t_dlst *from_head, t_dlst *to_head);
-t_dlst	*dlst_init(void);
 
 //operations.c
 void	sa(t_stack *stack);
@@ -96,5 +97,63 @@ void	rr(t_stack *stack);
 void	rra(t_stack *stack);
 void	rrb(t_stack *stack);
 void	rrr(t_stack *stack);
+
+//output.c
+void	ans_output(t_dlst *ans);
+
+//args_check.c
+void	args_check(int ac, char **av);
+
+//init.c
+t_stack	*init_stack(void);
+void	init_count(t_count *count);
+
+//reverse_stack.c
+void	reverse_stack(t_stack *stack, t_count *count);
+
+//find_pivots.c
+void	find_pivots(t_dlst *dlst_head, int size, t_pivots *pivots);
+
+void	ans_cut(t_dlst *ans);
+
+bool	qsort_atob(t_stack *stack, int size);
+
+bool	qsort_btoa(t_stack *stack, int size);
+
+//main.c
+void	algo_2(t_dlst *a_head, t_stack *stack);
+
+//A_3_algo_utills.c
+void	a_3_bac(t_stack *stack);
+void	a_3_bca(t_stack *stack);
+void	a_3_cba(t_stack *stack);
+void	a_3_acb(t_stack *stack);
+void	a_3_cab(t_stack *stack);
+
+//B_3_algo_utils.c
+void	b_3_bac(t_stack *stack);
+void	b_3_bca(t_stack *stack);
+void	b_3_acb(t_stack *stack);
+void	b_3_cab(t_stack *stack);
+void	b_3_abc(t_stack *stack);
+
+//
+void	algo_456(t_stack *stack);
+
+void	algo_3(t_dlst *a_head, t_stack *stack);
+
+void	algo_2(t_dlst *a_head, t_stack *stack);
+
+//utils.c
+void	av_to_dlst(t_stack *stack, int ac, char **av);
+
+
+//後で消す
+void	a_3_algo(t_dlst *a_head, t_stack *stack);
+void	push_to_b(t_stack *stack, int size, t_pivots pivots, t_count *count);
+bool	a_upto3(t_stack *stack, int size);
+void	array_qsort(int *array, int start, int end);
+int	*dlst_to_array(t_dlst *dlst_head, int size);
+void	print_stacks(t_stack *stack);
 
 #endif

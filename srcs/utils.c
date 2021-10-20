@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlst_utils3.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 18:55:36 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:57:52 by yshimazu         ###   ########.fr       */
+/*   Created: 2021/10/20 11:27:00 by yshimazu          #+#    #+#             */
+/*   Updated: 2021/10/20 11:27:42 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_rev_rotate(t_dlst *head)
+void	av_to_dlst(t_stack *stack, int ac, char **av)
 {
-	t_dlst	*back;
+	int	i;
+	int	num;
 
-	if (!head)
-		return ;
-	back = head->prev;
-	dlst_swap(back, head);
-}
-
-void	dlst_push_top(t_dlst *from_head, t_dlst *to_head)
-{
-	t_dlst	*elem;
-
-	elem = from_head->next->next;
-	dlst_add_front(to_head, from_head->next);
-	elem->prev = from_head;
-	from_head->next = elem;
+	i = 0;
+	while (++i < ac)
+	{
+		num = ft_atoi(av[i]);//+-の処理
+		dlst_add_back(stack->a_head, dlst_new(num));
+	}
 }

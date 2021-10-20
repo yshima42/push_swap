@@ -1,33 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlst_utils3.c                                      :+:      :+:    :+:   */
+/*   A_3_algo_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 18:55:36 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:57:52 by yshimazu         ###   ########.fr       */
+/*   Created: 2021/10/19 20:30:52 by yshimazu          #+#    #+#             */
+/*   Updated: 2021/10/19 20:30:57 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_rev_rotate(t_dlst *head)
+void	a_3_bac(t_stack *stack)
 {
-	t_dlst	*back;
-
-	if (!head)
-		return ;
-	back = head->prev;
-	dlst_swap(back, head);
+	sa(stack);
 }
 
-void	dlst_push_top(t_dlst *from_head, t_dlst *to_head)
+void	a_3_bca(t_stack *stack)
 {
-	t_dlst	*elem;
+	sa(stack);
+	ra(stack);
+	sa(stack);
+	rra(stack);
+}
 
-	elem = from_head->next->next;
-	dlst_add_front(to_head, from_head->next);
-	elem->prev = from_head;
-	from_head->next = elem;
+void	a_3_cba(t_stack *stack)
+{
+	sa(stack);
+	ra(stack);
+	sa(stack);
+	rra(stack);
+	sa(stack);
+}
+
+void	a_3_acb(t_stack *stack)
+{
+	ra(stack);
+	sa(stack);
+	rra(stack);
+}
+
+void	a_3_cab(t_stack *stack)
+{
+	ra(stack);
+	sa(stack);
+	rra(stack);
+	sa(stack);
 }

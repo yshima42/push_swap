@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlst_utils3.c                                      :+:      :+:    :+:   */
+/*   args_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 18:55:36 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:57:52 by yshimazu         ###   ########.fr       */
+/*   Created: 2021/10/20 11:24:45 by yshimazu          #+#    #+#             */
+/*   Updated: 2021/10/20 11:30:18 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_rev_rotate(t_dlst *head)
+void	args_check(int ac, char **av)
 {
-	t_dlst	*back;
-
-	if (!head)
-		return ;
-	back = head->prev;
-	dlst_swap(back, head);
-}
-
-void	dlst_push_top(t_dlst *from_head, t_dlst *to_head)
-{
-	t_dlst	*elem;
-
-	elem = from_head->next->next;
-	dlst_add_front(to_head, from_head->next);
-	elem->prev = from_head;
-	from_head->next = elem;
+	(void)av;
+	if (ac < 2)
+		exit (EXIT_FAILURE);
 }

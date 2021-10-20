@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlst_utils3.c                                      :+:      :+:    :+:   */
+/*   algo_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 18:55:36 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:57:52 by yshimazu         ###   ########.fr       */
+/*   Created: 2021/10/20 11:11:27 by yshimazu          #+#    #+#             */
+/*   Updated: 2021/10/20 11:11:32 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_rev_rotate(t_dlst *head)
+void	algo_3(t_dlst *a_head, t_stack *stack)
 {
-	t_dlst	*back;
+	int	a;
+	int	b;
+	int	c;
 
-	if (!head)
-		return ;
-	back = head->prev;
-	dlst_swap(back, head);
-}
-
-void	dlst_push_top(t_dlst *from_head, t_dlst *to_head)
-{
-	t_dlst	*elem;
-
-	elem = from_head->next->next;
-	dlst_add_front(to_head, from_head->next);
-	elem->prev = from_head;
-	from_head->next = elem;
+	a = a_head->next->num;
+	b = a_head->next->next->num;
+	c = a_head->next->next->next->num;
+	if (b < a && a < c)
+		sa(stack);
+	else if (b < c && c < a)
+		ra(stack);
+	else if (c < b && b < a)
+	{
+		sa(stack);
+		rra(stack);
+	}
+	else if (a < c && c < b)
+	{
+		sa(stack);
+		ra(stack);
+	}
+	else if (c < a && a < b)
+		rra(stack);
 }
