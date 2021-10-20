@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   qsort_AtoB.c                                       :+:      :+:    :+:   */
+/*   atob_qsort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 21:16:20 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:39:43 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 14:08:27 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	a_3_algo(t_dlst *a_head, t_stack *stack)
+static void	a_3_algo(t_dlst *a_head, t_stack *stack)
 {
 	int	a;
 	int	b;
@@ -33,7 +33,7 @@ void	a_3_algo(t_dlst *a_head, t_stack *stack)
 		a_3_cab(stack);
 }
 
-void	push_to_b(t_stack *stack, int size, t_pivots pivots, t_count *count)
+static void	push_to_b(t_stack *stack, int size, t_pivots pivots, t_count *count)
 {
 	int	i;
 
@@ -79,7 +79,7 @@ bool	a_upto3(t_stack *stack, int size)
 		return (false);
 }
 
-bool	a_is_sorted(t_dlst *head, int size)
+bool	is_sorted(t_dlst *head, int size)
 {
 	t_dlst	*p;
 	int		i;
@@ -102,7 +102,7 @@ bool	atob_qsort(t_stack *stack, int size)
 	t_count		count;
 
 	init_count(&count);
-	if (a_is_sorted(stack->a_head, size))
+	if (is_sorted(stack->a_head, size))
 		return (true);
 	if (a_upto3(stack, size))
 		return (true);

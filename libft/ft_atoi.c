@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:13:10 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 13:39:36 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 15:15:28 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,14 @@ int	ft_atoi(const char *str)
 	result = 0;
 	no_spaces_str = del_spaces(str);
 	sign = 1;
-	if (no_spaces_str[i] == '-')
+	if (no_spaces_str[i] == '-' || no_spaces_str[i] == '+')
 	{
-		sign = -1;
+		if (no_spaces_str[i] == '-')
+			sign = -1;
 		i++;
 	}
 	if (no_spaces_str[i] < '0' || no_spaces_str[i] > '9')
-	{
-		ft_putstr_fd("Error\n", 2);
-		exit(EXIT_FAILURE);
-	}
+		return (0);
 	while (no_spaces_str[i] >= '0' && no_spaces_str[i] <= '9')
 	{
 		if (max_check(result, no_spaces_str, i, sign) != 1)

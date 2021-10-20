@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:30:48 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:31:05 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 14:13:18 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ int	*dlst_to_array(t_dlst *dlst_head, int size)
 
 	p = dlst_head->next;
 	array = (int *)malloc(sizeof(int) * size);
-	if (array == NULL) //perrorつける //後ほどフリーする
+	if (array == NULL) //後ほどフリーする
+	{
+		ft_putstr_fd("Error\nmalloc", 2);
 		exit (EXIT_FAILURE);
+	}
 	i = -1;
 	while (++i < size)
 	{

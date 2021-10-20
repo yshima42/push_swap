@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:41:01 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 15:48:50 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	find_pivots(t_dlst *dlst_head, int size, t_pivots *pivots);
 
 void	ans_cut(t_dlst *ans);
 
+//atob_qsort.c
+bool	a_upto3(t_stack *stack, int size);
 bool	atob_qsort(t_stack *stack, int size);
 
 bool	btoa_qsort(t_stack *stack, int size);
@@ -145,13 +147,11 @@ void	algo_3(t_dlst *a_head, t_stack *stack);
 void	algo_2(t_dlst *a_head, t_stack *stack);
 
 //utils.c
-void	av_to_dlst(t_stack *stack, int ac, char **av);
+void	av_to_dlst(t_dlst *head, int n_nums, char **av);
+int		ps_atoi(const char *str);
 
 
 //後で消す
-void	a_3_algo(t_dlst *a_head, t_stack *stack);
-void	push_to_b(t_stack *stack, int size, t_pivots pivots, t_count *count);
-bool	a_upto3(t_stack *stack, int size);
 void	array_qsort(int *array, int start, int end);
 int	*dlst_to_array(t_dlst *dlst_head, int size);
 void	print_stacks(t_stack *stack);
