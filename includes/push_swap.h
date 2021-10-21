@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 19:19:23 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/21 22:12:28 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 # include "../libft/libft.h"
 
-# define ARGS_LIMIT 2000
+# define ARGS_LIMIT 15000
+# define ERROR -1
 
 typedef enum e_cmd
 {
@@ -61,27 +62,25 @@ typedef struct s_stack
 	t_dlst	*a_head;
 	t_dlst	*b_head;
 	t_dlst	*ans;
-	int	n_ABqsort;
-	int	n_BAqsort;
 } t_stack;
 
 //dlst_utils.c
 t_dlst	*dlst_new(int num);
 int	dlst_size(t_dlst *head);
-void	dlst_add_back(t_dlst *head, t_dlst *new);
-void	dlst_del_front(t_dlst *head);
-void	dlst_del(t_dlst *elem);
+bool	dlst_add_back(t_dlst *head, t_dlst *new);
+bool	dlst_del_front(t_dlst *head);
+bool	dlst_del(t_dlst *elem);
 
 //dlst_utils2.c
-void	dlst_del_back(t_dlst *head);
-void	dlst_add_front(t_dlst *head, t_dlst *new);
-void	dlst_swap(t_dlst *a, t_dlst *b);
-void	dlst_swap_front(t_dlst *head);
-void	dlst_rotate(t_dlst *head);
+bool	dlst_del_back(t_dlst *head);
+bool	dlst_add_front(t_dlst *head, t_dlst *new);
+bool	dlst_swap(t_dlst *a, t_dlst *b);
+bool	dlst_swap_front(t_dlst *head);
+bool	dlst_rotate(t_dlst *head);
 
 //dlst_utils3.c
-void	dlst_rev_rotate(t_dlst *head);
-void	dlst_push_top(t_dlst *from_head, t_dlst *to_head);
+bool	dlst_rev_rotate(t_dlst *head);
+bool	dlst_push_top(t_dlst *from_head, t_dlst *to_head);
 
 //operations.c
 void	sa(t_stack *stack);
@@ -152,8 +151,25 @@ void	algo_2(t_dlst *a_head, t_stack *stack);
 //utils.c
 void	av_to_dlst(t_dlst *head, int n_nums, char **av, t_stack *stack);
 
-//all_free.c
-void	all_free(t_stack *stack);
+//all_free_exit.c
+void	all_free_exit(t_stack *stack, int exit_status);
+
+void	check_num_dup(t_dlst *head, t_stack *stack);
+
+//bonus
+bool	sa_exec(t_stack *stack);
+bool	sb_exec(t_stack *stack);
+bool	ss_exec(t_stack *stack);
+bool	pa_exec(t_stack *stack);
+bool	pb_exec(t_stack *stack);
+bool	ra_exec(t_stack *stack);
+bool	rb_exec(t_stack *stack);
+bool	rr_exec(t_stack *stack);
+bool	rra_exec(t_stack *stack);
+bool	rrb_exec(t_stack *stack);
+bool	rrr_exec(t_stack *stack);
+
+void	ko_output_exit(t_stack *stack);
 
 //後で消す
 void	array_qsort(int *array, int start, int end);

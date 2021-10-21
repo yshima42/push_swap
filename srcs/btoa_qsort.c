@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   qsort_BtoA.c                                       :+:      :+:    :+:   */
+/*   btoa_qsort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 21:18:02 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:40:11 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 22:37:47 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ static void	push_to_a(t_stack *stack, int size, t_pivots pivots, t_count *count)
 	}
 }
 
-static void	b_2_algo(t_dlst *head, t_stack *stack)
-{
-	if (head->next->num < head->next->next->num)
-		sb(stack);
-}
-
 static bool	b_upto3(t_stack *stack, int b_size)
 {
 	if (b_size == 0)
@@ -82,7 +76,8 @@ static bool	b_upto3(t_stack *stack, int b_size)
 	}
 	else if (b_size == 2)
 	{
-		b_2_algo(stack->b_head, stack);
+		if (stack->b_head->next->num < stack->b_head->next->next->num)
+			sb(stack);
 		pa(stack);
 		pa(stack);
 		return (true);
@@ -96,12 +91,37 @@ static bool	b_upto3(t_stack *stack, int b_size)
 		return (false);
 }
 
+bool	b_is_sorted(t_dlst *head, int size, t_stack *stack)
+{
+	t_dlst	*p;
+	int		i;
+
+	p = head->next;
+	i = 0;
+	while (i < size - 1 && p->next != head)
+	{
+		if (p->num < p->next->num)
+			return (false);
+		p = p->next;
+		i++;
+	}
+	i = 0;
+	while(i < size)
+	{
+		pa(stack);
+		i++;
+	}
+	return (true);
+}
+
 bool	btoa_qsort(t_stack *stack, int b_size)
 {
 	t_pivots	pivots;
 	t_count		count;
 
 	init_count(&count);
+	if (b_is_sorted(stack->b_head, b_size, stack))
+		return (true);
 	if (b_upto3(stack, b_size))
 		return (true);
 	find_pivots(stack->b_head, b_size, &pivots);

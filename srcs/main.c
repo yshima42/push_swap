@@ -6,30 +6,11 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 20:28:30 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/21 13:15:25 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-void	print_stacks(t_stack *stack)
-{
-	t_dlst *p;
-	
-	p = stack->a_head->next;
-	while(p != stack->a_head)
-	{
-		printf("A: %d\n",p->num);
-		p = p->next;
-	}
-	printf("\n");
-	p = stack->b_head->next;
-	while(p != stack->b_head)
-	{
-		printf("B: %d\n",p->num);
-		p = p->next;
-	}
-}
 
 static void	find_pivots_1st(t_dlst *dlst_head, int size, t_pivots *pivots)
 {
@@ -100,29 +81,6 @@ void	upto_6(t_stack *stack, int n_ags)
 		algo_456(stack);
 }
 
-void	check_num_dup(t_dlst *head, t_stack *stack)
-{
-	t_dlst	*p;
-	t_dlst	*q;
-
-	p = head->next;
-	while(p != head)
-	{
-		q = p->next;
-		while (q != head)
-		{
-			if (p->num == q->num)
-			{
-				ft_putstr_fd("Error\n", 2);
-				all_free(stack);
-				exit(EXIT_FAILURE);
-			}
-			q = q->next;
-		}
-		p = p->next;
-	}
-}
-//TO DO: all_free exitを作る
 int	main(int ac, char **av)
 {
 	t_stack	*stack;
@@ -134,10 +92,7 @@ int	main(int ac, char **av)
 	av_to_dlst(stack->a_head, n_nums, av, stack);
 	check_num_dup(stack->a_head, stack);
 	if (is_sorted(stack->a_head, n_nums))
-	{
-		all_free(stack);
-		return (0);
-	}
+		all_free_exit(stack, EXIT_SUCCESS);
 	if (n_nums <= 6)
 		upto_6(stack, n_nums);
 	else
@@ -145,6 +100,6 @@ int	main(int ac, char **av)
 	ans_cut(stack->ans);
 	ans_cut(stack->ans);
 	ans_output(stack->ans);
-	all_free(stack);
+	all_free_exit(stack, EXIT_SUCCESS);
 	return (0);
 }

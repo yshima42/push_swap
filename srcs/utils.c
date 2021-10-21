@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:27:00 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 20:27:24 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 22:57:01 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static char	*del_spaces(char const *str)
 void	error_exit(t_stack *stack)
 {
 	ft_putstr_fd("Error\n", 2);
-	all_free(stack);
-	exit(EXIT_FAILURE);
+	all_free_exit(stack, EXIT_FAILURE);
 }
 
 void	c_is_num_check(char c, t_stack *stack)
@@ -83,11 +82,6 @@ void	av_to_dlst(t_dlst *head, int n_nums, char **av, t_stack *stack)
 	while (++i <= n_nums)
 	{
 		num = ps_atoi(av[i], stack);
-		if (INT32_MAX < num || num < INT32_MIN)
-		{
-			ft_putstr_fd("Error\n", 2);
-			exit(EXIT_FAILURE);
-		}
 		dlst_add_back(head, dlst_new(num));
 	}
 }

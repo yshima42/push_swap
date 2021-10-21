@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dlst_utils.c                                       :+:      :+:    :+:   */
+/*   dlst_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:49:21 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:44:18 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/21 21:50:01 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,38 +42,41 @@ int	dlst_size(t_dlst *head)
 	return (size);
 }
 
-void	dlst_add_back(t_dlst *head, t_dlst *new)
+bool	dlst_add_back(t_dlst *head, t_dlst *new)
 {
 	if (!head || !new)
-		return ;
+		return (false);
 	new->next = head;
 	new->prev = head->prev;
 	head->prev->next = new;
 	head->prev = new;
+	return (true);
 }
 
-void	dlst_del_front(t_dlst *head)
+bool	dlst_del_front(t_dlst *head)
 {
 	t_dlst	*elem;
 
 	if (!head)
-		return ;
+		return (false);
 	elem = head->next;
 	elem->next->prev = head;
 	head->next = elem->next;
 	free(elem);
+	return (true);
 }
 
-void	dlst_del(t_dlst *elem)
+bool	dlst_del(t_dlst *elem)
 {
 	t_dlst	*front;
 	t_dlst	*back;
 
 	if (!elem || elem->next == elem)
-		return ;
+		return (false);
 	front = elem->next;
 	back = elem->prev;
 	back->next = front;
 	front->prev = back;
 	free(elem);
+	return (true);
 }

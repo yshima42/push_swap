@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 21:16:20 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 20:23:10 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/21 11:32:02 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ bool	is_sorted(t_dlst *head, int size)
 	int		i;
 
 	p = head->next;
-	i = 0;
-	while (i < size && p->next != head)
+	i = 0;	
+	while (i < size - 1 && p->next != head)
 	{
 		if (p->num > p->next->num)
 			return (false);

@@ -14,7 +14,7 @@ void	dlst_free(t_dlst *head)
 	free (head);
 }
 
-void	all_free(t_stack *stack)
+void	all_free_exit(t_stack *stack, int exit_status)
 {
 	if (stack->a_head)
 		dlst_free(stack->a_head);
@@ -24,4 +24,5 @@ void	all_free(t_stack *stack)
 		dlst_free(stack->ans);
 	if (stack)
 		free(stack);
+	exit(exit_status);
 }

@@ -6,11 +6,23 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:08:53 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:29:19 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/20 22:48:53 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+static void	push_to_a_456(t_stack *stack)
+{
+	t_dlst	*p;
+
+	p = stack->b_head->next;
+	while (p != stack->b_head)
+	{
+		p = p->next;
+		pa(stack);
+	}
+}
 
 static bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
 {
@@ -63,18 +75,6 @@ static void	push_to_b_456(t_stack *stack)
 				rra(stack);
 		pb(stack);
 		size = dlst_size(stack->a_head);
-	}
-}
-
-static void	push_to_a_456(t_stack *stack)
-{
-	t_dlst	*p;
-
-	p = stack->b_head->next;
-	while (p != stack->b_head)
-	{
-		p = p->next;
-		pa(stack);
 	}
 }
 
