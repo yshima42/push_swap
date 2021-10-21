@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:05:59 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 22:30:32 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/21 22:47:55 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,11 @@ void	operations_exec(t_stack *stack)
 
 bool	ans_check(t_stack *stack, int n_nums)
 {
+	int	a_size;
+
 	operations_exec(stack);
-	if (is_sorted(stack->a_head, n_nums))
+	a_size = dlst_size(stack->a_head);
+	if (is_sorted(stack->a_head, n_nums) && a_size == n_nums)
 		return (true);
 	else
 		return (false);
