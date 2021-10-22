@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:38:31 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 23:52:36 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 00:07:49 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,19 @@ static char	*del_spaces(char const *str)
 	return (no_spaces_str);
 }
 
-static void	c_is_num_check(char c, t_stack *stack)
+static void	num_check(char *no_spaces_str, t_stack *stack, size_t i)
 {
-	if (c < '0' || c > '9')
+	if (no_spaces_str[i] < '0' || no_spaces_str[i] > '9')
+		error_exit(stack);
+	if (no_spaces_str[i] == '0' && no_spaces_str[i + 1] != '\0')
 		error_exit(stack);
 }
 
-static void	after_check(char c, t_stack *stack)
+void	int_max_check(int32_t sign, size_t result, t_stack *stack)
 {
-	if (c)
+	if ((sign == -1 && result > 2147483648)
+		|| (sign == 1 && result > 2147483647)
+		|| (sign == -1 && result == 0))
 		error_exit(stack);
 }
 
@@ -54,20 +58,19 @@ int32_t	ps_atoi(const char *str, t_stack *stack)
 	result = 0;
 	no_spaces_str = del_spaces(str);
 	sign = 1;
-	if (no_spaces_str[i++] == '-')
+	if (no_spaces_str[i] == '-')
+	{
 		sign = -1;
-	c_is_num_check(no_spaces_str[i], stack);
-	if (no_spaces_str[i] == '0' && no_spaces_str[i + 1] != '\0')
-		error_exit(stack);
+		i++;
+	}
+	num_check(no_spaces_str, stack, i);
 	while (no_spaces_str[i] >= '0' && no_spaces_str[i] <= '9')
 	{
 		result = result * 10 + (no_spaces_str[i] - '0');
 		i++;
-		if ((sign == -1 && result > 2147483648)
-			|| (sign == 1 && result > 2147483647)
-			|| (sign == -1 && result == 0))
-			error_exit(stack);
+		int_max_check(sign, result, stack);
 	}
-	after_check(no_spaces_str[i], stack);
+	if (no_spaces_str[i])
+		error_exit(stack);
 	return ((int32_t)result * sign);
 }

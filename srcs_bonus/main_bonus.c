@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:05:59 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 23:14:24 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 23:56:01 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int32_t ac, char **av)
 	int32_t	n_nums;
 
 	n_nums = ac - 1;
-	args_check(n_nums, av);
+	args_check(n_nums);
 	stack = init_stack();
 	av_to_dlst(stack->a_head, n_nums, av, stack);
 	check_num_dup(stack->a_head, stack);
