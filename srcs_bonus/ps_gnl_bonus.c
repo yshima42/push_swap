@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:29:28 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 18:56:01 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 18:59:42 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char	*ps_gnl(int fd, t_gnl *t_buff)//, t_gnl *s_buff)
 	ret = NULL;
 	status = ps_getfd(t_buff, buff, &ret);
 	free(buff);
-	if ((status == ERROR || status == END_OF_FILE) || !ft_strchr(ret, '\0'))
+	if ((status == ERROR || status == END_OF_FILE) || !ft_strncmp(ret, "\0", 1))
 		ps_buff_clear(&s_buff, t_buff);
 	if (status == ERROR)
 		return (NULL);
