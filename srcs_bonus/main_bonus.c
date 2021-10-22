@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:05:59 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 19:01:07 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 23:13:28 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	ans_get_dlst(t_stack *stack)
 		if (ans_int == ERROR)
 		{
 			ft_putstr_fd("Error\n", 2);
+			free(ans_str);
 			all_free_exit(stack, EXIT_FAILURE);
 		}
 		free(ans_str);
