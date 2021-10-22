@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:29:28 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 23:11:59 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 00:56:09 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ static void	ps_buff_clear(t_gnl **s_buff, t_gnl *t_buff)
 	free(t_buff);
 }
 
+bool	ps_ret_check(char *ret)
+{
+	if (!ft_strncmp(ret, "PA", 2) || !ft_strncmp(ret, "PB", 2) || !ft_strncmp(ret, "SA", 2)
+		|| !ft_strncmp(ret, "SB", 2) || !ft_strncmp(ret, "SS", 2) || !ft_strncmp(ret, "RA", 2)
+		|| !ft_strncmp(ret, "RB", 2) || !ft_strncmp(ret, "RR", 2) || !ft_strncmp(ret, "RRA", 3)
+		|| !ft_strncmp(ret, "RRB", 3) || !ft_strncmp(ret, "RRR", 3) || !ft_strncmp(ret, "PA", 2))
+		return (false);
+	else
+		return (true);
+}
+
 static int	ps_line_output(t_gnl **t_buff, char *ptr, char **ret)
 {
 	char	*tmp;
@@ -43,7 +54,10 @@ static int	ps_line_output(t_gnl **t_buff, char *ptr, char **ret)
 		tmp = ft_strndup(ptr + 1, ft_strlen(ptr + 1));
 		free((*t_buff)->memo);
 		(*t_buff)->memo = tmp;
-		return (SUCCESS);
+		if (ps_ret_check(*ret))
+			return (SUCCESS);
+		else
+			return (END_OF_FILE);
 	}
 	else
 	{
