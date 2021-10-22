@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 20:45:45 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 22:13:38 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 13:34:27 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ bool	sb_exec(t_stack *stack)
 
 bool	ss_exec(t_stack *stack)
 {
-	if (dlst_swap_front(stack->a_head) 
-		|| dlst_swap_front(stack->b_head))
+	if (dlst_swap_front(stack->a_head)
+		&& dlst_swap_front(stack->b_head))
 		return (true);
 	else
 	{

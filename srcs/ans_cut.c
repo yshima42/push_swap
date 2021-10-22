@@ -6,13 +6,13 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 20:40:34 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:36:09 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:24:36 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	dlst_replace(t_dlst *ans, int ope)
+static void	dlst_replace(t_dlst *ans, int32_t ope)
 {
 	dlst_del_front(ans->next);
 	ans->next->num = ope;

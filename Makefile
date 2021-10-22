@@ -12,8 +12,9 @@ SRCS_FILES    	= 	$(SRCS_PATH)dlst_utils1.c $(SRCS_PATH)dlst_utils2.c $(SRCS_PAT
 					$(SRCS_PATH)args_check.c $(SRCS_PATH)init.c $(SRCS_PATH)reverse_stack.c $(SRCS_PATH)find_pivots.c \
 					$(SRCS_PATH)ans_cut.c $(SRCS_PATH)atob_qsort.c $(SRCS_PATH)a_3_algo_utils.c $(SRCS_PATH)btoa_qsort.c \
 					$(SRCS_PATH)b_3_algo_utils.c $(SRCS_PATH)algo_456.c $(SRCS_PATH)algo_3.c $(SRCS_PATH)algo_2.c \
-					$(SRCS_PATH)utils.c $(SRCS_PATH)all_free.c $(SRCS_PATH)check_num_dup.c
-BONUS_MAIN    	= 	$(BONUS_PATH)main_bonus.c $(BONUS_PATH)operations1_bonus.c $(BONUS_PATH)operations2_bonus.c $(BONUS_PATH)operations3_bonus.c 
+					$(SRCS_PATH)av_to_dlst.c $(SRCS_PATH)all_free.c $(SRCS_PATH)check_num_dup.c $(SRCS_PATH)ps_atoi.c
+BONUS_MAIN    	= 	$(BONUS_PATH)main_bonus.c $(BONUS_PATH)operations1_bonus.c $(BONUS_PATH)operations2_bonus.c \
+					$(BONUS_PATH)operations3_bonus.c $(BONUS_PATH)output_bonus.c $(BONUS_PATH)ans_check_bonus.c  
 SRCS_OBJS		= 	$(SRCS_FILES:.c=.o) $(MAND_MAIN:.c=.o)
 BONUS_OBJS		= 	$(SRCS_FILES:.c=.o) $(BONUS_MAIN:.c=.o)
 LIBFTMAKE		= 	$(MAKE) -C $(LIBFT_PATH)

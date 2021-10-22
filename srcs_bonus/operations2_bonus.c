@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 20:46:46 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 22:13:46 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 13:34:56 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	ra_exec(t_stack *stack)
 	}
 }	
 
-bool rb_exec(t_stack *stack)
+bool	rb_exec(t_stack *stack)
 {
 	if (dlst_rotate(stack->b_head))
 		return (true);
@@ -34,10 +34,10 @@ bool rb_exec(t_stack *stack)
 	}
 }
 
-bool rr_exec(t_stack *stack)
+bool	rr_exec(t_stack *stack)
 {
 	if (dlst_rotate(stack->a_head)
-		|| dlst_rotate(stack->b_head))
+		&& dlst_rotate(stack->b_head))
 		return (true);
 	else
 	{

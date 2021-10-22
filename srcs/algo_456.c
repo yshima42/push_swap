@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:08:53 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 22:48:53 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:24:04 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	push_to_a_456(t_stack *stack)
 
 static bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
 {
-	int		dis_front;
-	int		dis_back;
+	int32_t	dis_front;
+	int32_t	dis_back;
 	t_dlst	*p;
 
 	dis_front = 0;
@@ -54,7 +54,7 @@ static void	push_to_b_456(t_stack *stack)
 {
 	t_dlst	*p;
 	t_dlst	*p_s;
-	int		size;
+	int32_t	size;
 
 	size = dlst_size(stack->a_head);
 	while (size > 3)

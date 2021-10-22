@@ -6,39 +6,48 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:11:49 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 18:22:53 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 12:36:33 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	sa(t_stack *stack)
+bool	sa(t_stack *stack)
 {
-	dlst_swap_front(stack->a_head);
-	dlst_add_back(stack->ans, dlst_new(SA));
+	if (dlst_swap_front(stack->a_head))
+		return (dlst_add_back(stack->ans, dlst_new(SA)));
+	else
+		return (false);
 }
 
-void	sb(t_stack *stack)
+bool	sb(t_stack *stack)
 {
-	dlst_swap_front(stack->b_head);
-	dlst_add_back(stack->ans, dlst_new(SB));
+	if (dlst_swap_front(stack->b_head))
+		return (dlst_add_back(stack->ans, dlst_new(SB)));
+	else
+		return (false);
 }
 
-void	ss(t_stack *stack)
+bool	ss(t_stack *stack)
 {
-	dlst_swap_front(stack->a_head);
-	dlst_swap_front(stack->b_head);
-	dlst_add_back(stack->ans, dlst_new(SS));
+	if (dlst_swap_front(stack->a_head) && dlst_swap_front(stack->b_head))
+		return (dlst_add_back(stack->ans, dlst_new(SS)));
+	else
+		return (false);
 }
 
-void	pa(t_stack *stack)
+bool	pa(t_stack *stack)
 {
-	dlst_push_top(stack->b_head, stack->a_head);
-	dlst_add_back(stack->ans, dlst_new(PA));
+	if (dlst_push_top(stack->b_head, stack->a_head))
+		return (dlst_add_back(stack->ans, dlst_new(PA)));
+	else
+		return (false);
 }
 
-void	pb(t_stack *stack)
+bool	pb(t_stack *stack)
 {
-	dlst_push_top(stack->a_head, stack->b_head);
-	dlst_add_back(stack->ans, dlst_new(PB));
+	if (dlst_push_top(stack->a_head, stack->b_head))
+		return (dlst_add_back(stack->ans, dlst_new(PB)));
+	else
+		return (false);
 }

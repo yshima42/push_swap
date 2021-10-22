@@ -6,13 +6,13 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 20:49:14 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:49:15 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:30:24 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	ope_export(int ope)
+static void	ope_export(int32_t ope)
 {
 	if (ope == PA)
 		ft_putstr_fd("pa", 1);

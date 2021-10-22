@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all_free.c                                         :+:      :+:    :+:   */
+/*   output_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/22 13:45:25 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 14:24:19 by yshimazu         ###   ########.fr       */
+/*   Created: 2021/10/22 13:35:30 by yshimazu          #+#    #+#             */
+/*   Updated: 2021/10/22 13:35:45 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_free(t_dlst *head)
+void	ok_output_exit(t_stack *stack)
 {
-	t_dlst	*p;
-
-	p = head->next;
-	while (p != head)
-	{
-		p = p->next;
-		free (p->prev);
-	}
-	free (head);
+	ft_putstr_fd("OK\n", 1);
+	all_free_exit(stack, EXIT_SUCCESS);
 }
 
-void	all_free_exit(t_stack *stack, int32_t exit_status)
+void	ko_output_exit(t_stack *stack)
 {
-	if (stack->a_head)
-		dlst_free(stack->a_head);
-	if (stack->b_head)
-		dlst_free(stack->b_head);
-	if (stack->ans)
-		dlst_free(stack->ans);
-	if (stack)
-		free(stack);
-	exit(exit_status);
+	ft_putstr_fd("KO\n", 1);
+	all_free_exit(stack, EXIT_SUCCESS);
 }

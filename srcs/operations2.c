@@ -6,27 +6,32 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:14:38 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/19 20:48:30 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 12:26:49 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	ra(t_stack *stack)
+bool	ra(t_stack *stack)
 {
-	dlst_rotate(stack->a_head);
-	dlst_add_back(stack->ans, dlst_new(RA));
+	if (dlst_rotate(stack->a_head))
+		return (dlst_add_back(stack->ans, dlst_new(RA)));
+	else
+		return (false);
 }
 
-void	rb(t_stack *stack)
+bool	rb(t_stack *stack)
 {
-	dlst_rotate(stack->b_head);
-	dlst_add_back(stack->ans, dlst_new(RB));
+	if (dlst_rotate(stack->b_head))
+		return (dlst_add_back(stack->ans, dlst_new(RB)));
+	else
+		return (false);
 }
 
-void	rr(t_stack *stack)
+bool	rr(t_stack *stack)
 {
-	dlst_rotate(stack->a_head);
-	dlst_rotate(stack->b_head);
-	dlst_add_back(stack->ans, dlst_new(RR));
+	if (dlst_rotate(stack->a_head) && dlst_rotate(stack->b_head))
+		return (dlst_add_back(stack->ans, dlst_new(RR)));
+	else
+		return (false);
 }

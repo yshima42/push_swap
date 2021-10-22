@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:53:29 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 21:52:52 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 12:40:45 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	dlst_rotate(t_dlst *head)
 {
 	t_dlst	*front;
 
-	if (!head || head->next == head)
+	if (!head || head->next == head || head->next->next == head)
 		return (false);
 	front = head->next;
 	dlst_swap(head, front);

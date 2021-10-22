@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 21:18:02 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 22:37:47 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:43:59 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	b_3_algo(t_dlst *a_head, t_stack *stack)
 {
-	int	a;
-	int	b;
-	int	c;
+	int32_t	a;
+	int32_t	b;
+	int32_t	c;
 
 	a = a_head->next->num;
 	b = a_head->next->next->num;
@@ -39,9 +39,10 @@ static void	b_3_algo(t_dlst *a_head, t_stack *stack)
 	}
 }
 
-static void	push_to_a(t_stack *stack, int size, t_pivots pivots, t_count *count)
+static void	
+	push_to_a(t_stack *stack, int32_t size, t_pivots pivots, t_count *count)
 {
-	int	i;
+	int32_t	i;
 
 	i = 0;
 	while (i < size)
@@ -65,7 +66,7 @@ static void	push_to_a(t_stack *stack, int size, t_pivots pivots, t_count *count)
 	}
 }
 
-static bool	b_upto3(t_stack *stack, int b_size)
+static bool	b_upto3(t_stack *stack, int32_t b_size)
 {
 	if (b_size == 0)
 		return (true);
@@ -91,10 +92,10 @@ static bool	b_upto3(t_stack *stack, int b_size)
 		return (false);
 }
 
-bool	b_is_sorted(t_dlst *head, int size, t_stack *stack)
+bool	b_is_sorted(t_dlst *head, int32_t size, t_stack *stack)
 {
 	t_dlst	*p;
-	int		i;
+	int32_t	i;
 
 	p = head->next;
 	i = 0;
@@ -106,7 +107,7 @@ bool	b_is_sorted(t_dlst *head, int size, t_stack *stack)
 		i++;
 	}
 	i = 0;
-	while(i < size)
+	while (i < size)
 	{
 		pa(stack);
 		i++;
@@ -114,7 +115,7 @@ bool	b_is_sorted(t_dlst *head, int size, t_stack *stack)
 	return (true);
 }
 
-bool	btoa_qsort(t_stack *stack, int b_size)
+bool	btoa_qsort(t_stack *stack, int32_t b_size)
 {
 	t_pivots	pivots;
 	t_count		count;

@@ -6,13 +6,13 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:49:21 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 21:50:01 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:36:32 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-t_dlst	*dlst_new(int num)
+t_dlst	*dlst_new(int32_t num)
 {
 	t_dlst	*elem;
 
@@ -25,7 +25,7 @@ t_dlst	*dlst_new(int num)
 	return (elem);
 }
 
-int	dlst_size(t_dlst *head)
+int32_t	dlst_size(t_dlst *head)
 {
 	size_t	size;
 	t_dlst	*p;

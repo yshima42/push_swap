@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all_free.c                                         :+:      :+:    :+:   */
+/*   av_to_dlst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/22 13:45:25 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 14:24:19 by yshimazu         ###   ########.fr       */
+/*   Created: 2021/10/20 11:27:00 by yshimazu          #+#    #+#             */
+/*   Updated: 2021/10/22 14:26:13 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_free(t_dlst *head)
+void	av_to_dlst(t_dlst *head, int32_t n_nums, char **av, t_stack *stack)
 {
-	t_dlst	*p;
+	int32_t	i;
+	int32_t	num;
 
-	p = head->next;
-	while (p != head)
+	i = 0;
+	while (++i <= n_nums)
 	{
-		p = p->next;
-		free (p->prev);
+		num = ps_atoi(av[i], stack);
+		dlst_add_back(head, dlst_new(num));
 	}
-	free (head);
-}
-
-void	all_free_exit(t_stack *stack, int32_t exit_status)
-{
-	if (stack->a_head)
-		dlst_free(stack->a_head);
-	if (stack->b_head)
-		dlst_free(stack->b_head);
-	if (stack->ans)
-		dlst_free(stack->ans);
-	if (stack)
-		free(stack);
-	exit(exit_status);
 }

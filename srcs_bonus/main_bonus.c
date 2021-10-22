@@ -6,32 +6,13 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:05:59 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 22:47:55 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:43:20 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	print_stacks(t_stack *stack)
-{
-	t_dlst *p;
-	
-	p = stack->a_head->next;
-	while(p != stack->a_head)
-	{
-		printf("A: %d\n",p->num);
-		p = p->next;
-	}
-	printf("\n");
-	p = stack->b_head->next;
-	while(p != stack->b_head)
-	{
-		printf("B: %d\n",p->num);
-		p = p->next;
-	}
-}
-
-static int ope_to_int(char *ans)
+static int32_t	ope_to_int(char *ans)
 {
 	if (!(ft_strncmp("pa", ans, 3)))
 		return (PA);
@@ -56,70 +37,13 @@ static int ope_to_int(char *ans)
 	else if (!(ft_strncmp("rrr", ans, 4)))
 		return (RRR);
 	else
-		return(ERROR);
+		return (ERROR);
 }
 
-void	operations_exec(t_stack *stack)
-{
-	t_dlst	*p;
-
-	p = stack->ans->next;
-	while (p != stack->ans)
-	{
-		if (p->num == PA)
-			pa_exec(stack);
-		else if (p->num == PB)
-			pb_exec(stack);
-		else if (p->num == SA)
-			sa_exec(stack);
-		else if (p->num == SB)
-			sb_exec(stack);
-		else if (p->num == SS)
-			ss_exec(stack);
-		else if (p->num == RA)
-			ra_exec(stack);
-		else if (p->num == RB)
-			rb_exec(stack);
-		else if (p->num == RR)
-			rr_exec(stack);
-		else if (p->num == RRA)
-			rra_exec(stack);
-		else if (p->num == RRB)
-			rrb_exec(stack);
-		else if (p->num == RRR)
-			rrr_exec(stack);
-		p = p->next;
-	}
-}
-
-bool	ans_check(t_stack *stack, int n_nums)
-{
-	int	a_size;
-
-	operations_exec(stack);
-	a_size = dlst_size(stack->a_head);
-	if (is_sorted(stack->a_head, n_nums) && a_size == n_nums)
-		return (true);
-	else
-		return (false);
-}
-
-void	ok_output_exit(t_stack *stack)
-{
-	ft_putstr_fd("OK\n", 1);
-	all_free_exit(stack, EXIT_SUCCESS);
-}
-
-void	ko_output_exit(t_stack *stack)
-{
-	ft_putstr_fd("KO\n", 1);
-	all_free_exit(stack, EXIT_SUCCESS);
-}
-
-void	ans_get_dlst(t_stack *stack)
+static void	ans_get_dlst(t_stack *stack)
 {
 	char	*ans_str;
-	int	ans_int;
+	int32_t	ans_int;
 
 	while (1)
 	{
@@ -136,10 +60,10 @@ void	ans_get_dlst(t_stack *stack)
 	}
 }
 
-int	main(int ac, char **av)
+int	main(int32_t ac, char **av)
 {
 	t_stack	*stack;
-	int		n_nums;
+	int32_t	n_nums;
 
 	n_nums = ac - 1;
 	args_check(n_nums, av);
@@ -151,5 +75,5 @@ int	main(int ac, char **av)
 		ok_output_exit(stack);
 	else
 		ko_output_exit(stack);
-	return(0);
+	return (0);
 }

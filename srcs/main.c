@@ -6,15 +6,15 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 13:15:25 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:30:05 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	find_pivots_1st(t_dlst *dlst_head, int size, t_pivots *pivots)
+static void	find_pivots_1st(t_dlst *dlst_head, int32_t size, t_pivots *pivots)
 {
-	int	*array;
+	int32_t	*array;
 
 	array = dlst_to_array(dlst_head, size);
 	array_qsort(array, 0, size - 1);
@@ -27,9 +27,9 @@ static void	find_pivots_1st(t_dlst *dlst_head, int size, t_pivots *pivots)
 }
 
 static void	
-	push_to_b_1st(t_stack *stack, int size, t_pivots pivots, t_count *count)
+	push_to_b_1st(t_stack *stack, int32_t size, t_pivots pivots, t_count *count)
 {
-	int	i;
+	int32_t	i;
 
 	i = 0;
 	while (i < size)
@@ -53,7 +53,7 @@ static void
 	}
 }
 
-bool	over_7(t_stack *stack, int size)
+bool	over_7(t_stack *stack, int32_t size)
 {
 	t_pivots	pivots;
 	t_count		count;
@@ -69,7 +69,7 @@ bool	over_7(t_stack *stack, int size)
 	return (true);
 }
 
-void	upto_6(t_stack *stack, int n_ags)
+void	upto_6(t_stack *stack, int32_t n_ags)
 {
 	if (n_ags == 1)
 		;
@@ -81,10 +81,10 @@ void	upto_6(t_stack *stack, int n_ags)
 		algo_456(stack);
 }
 
-int	main(int ac, char **av)
+int	main(int32_t ac, char **av)
 {
 	t_stack	*stack;
-	int		n_nums;
+	int32_t	n_nums;
 
 	n_nums = ac - 1;
 	args_check(n_nums, av);

@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 20:47:39 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 13:11:35 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:10:24 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static t_dlst	*init_dlst(t_stack *stack)
 	if (!elem)
 	{
 		ft_putstr_fd("Error\n", 2);
-		free(stack);
-		exit(EXIT_FAILURE);
+		all_free_exit(stack, EXIT_FAILURE);
 	}
 	elem->prev = elem;
 	elem->next = elem;

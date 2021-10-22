@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 00:18:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/21 00:18:18 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:10:46 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_num_dup(t_dlst *head, t_stack *stack)
 	t_dlst	*q;
 
 	p = head->next;
-	while(p != head)
+	while (p != head)
 	{
 		q = p->next;
 		while (q != head)

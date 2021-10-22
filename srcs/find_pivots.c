@@ -6,18 +6,18 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:30:48 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 23:08:45 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:36:53 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	array_qsort(int *array, int start, int end)
+void	array_qsort(int32_t *array, int32_t start, int32_t end)
 {
-	int	tmp;
-	int	pivot;
-	int	i;
-	int	j;
+	int32_t	tmp;
+	int32_t	pivot;
+	int32_t	i;
+	int32_t	j;
 
 	if (start < end)
 	{
@@ -41,15 +41,15 @@ void	array_qsort(int *array, int start, int end)
 	}
 }
 
-int	*dlst_to_array(t_dlst *dlst_head, int size)
+int32_t	*dlst_to_array(t_dlst *dlst_head, int32_t size)
 {
-	int		*array;
+	int32_t	*array;
 	t_dlst	*p;
-	int		i;
+	int32_t	i;
 
 	p = dlst_head->next;
-	array = (int *)malloc(sizeof(int) * size);
-	if (array == NULL) 
+	array = (int32_t *)malloc(sizeof(int32_t) * size);
+	if (array == NULL)
 	{
 		ft_putstr_fd("Error\n", 2);
 		exit (EXIT_FAILURE);
@@ -63,9 +63,9 @@ int	*dlst_to_array(t_dlst *dlst_head, int size)
 	return (array);
 }
 
-void	find_pivots(t_dlst *dlst_head, int size, t_pivots *pivots)
+void	find_pivots(t_dlst *dlst_head, int32_t size, t_pivots *pivots)
 {
-	int	*array;
+	int32_t	*array;
 
 	array = dlst_to_array(dlst_head, size);
 	array_qsort(array, 0, size - 1);

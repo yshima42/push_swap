@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:11:27 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/20 11:43:04 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 14:23:16 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	algo_3(t_dlst *a_head, t_stack *stack)
 {
-	int	a;
-	int	b;
-	int	c;
+	int32_t	a;
+	int32_t	b;
+	int32_t	c;
 
 	a = a_head->next->num;
 	b = a_head->next->next->num;
