@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 19:01:54 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 23:42:41 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	all_free_exit(t_stack *stack, int32_t exit_status);
 void	ans_cut(t_dlst *ans);
 
 //args_check.c
-void	args_check(int32_t ac, char **av);
+void	args_check(int32_t n_nums);
 
 //atob_qsort.c
 bool	a_upto3(t_stack *stack, int32_t size);

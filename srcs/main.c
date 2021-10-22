@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 23:34:06 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 23:43:10 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int32_t ac, char **av)
 	int32_t	n_nums;
 
 	n_nums = ac - 1;
-	args_check(n_nums, av);
+	args_check(n_nums);
 	stack = init_stack();
 	av_to_dlst(stack->a_head, n_nums, av, stack);
 	check_num_dup(stack->a_head, stack);
@@ -96,7 +96,7 @@ int	main(int32_t ac, char **av)
 	if (n_nums <= 6)
 		upto_6(stack, n_nums);
 	else
-		over_7(stack, n_nums); 
+		over_7(stack, n_nums);
 	ans_cut(stack->ans);
 	ans_cut(stack->ans);
 	ans_output(stack->ans);
