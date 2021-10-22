@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:05:59 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 18:44:58 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 18:56:27 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,22 @@ static void	ans_get_dlst(t_stack *stack)
 {
 	char	*ans_str;
 	int32_t	ans_int;
-	t_gnl	*buff;
+	t_gnl	*t_buff;
+	//static t_gnl	*s_buff;
 
-	buff = NULL;
+	t_buff = NULL;
+	//s_buff = NULL;
 	while (1)
 	{
-		ans_str = ps_gnl(0, buff);
+		ans_str = ps_gnl(0, t_buff);//, s_buff);
 		if (!ans_str)
 			break ;
 		ans_int = ope_to_int(ans_str);
 		if (ans_int == ERROR)
 		{
 			ft_putstr_fd("Error\n", 2);
-			free(buff);
+			//free(t_buff);
+			//free(s_buff);
 			all_free_exit(stack, EXIT_FAILURE);
 		}
 		free(ans_str);

@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:29:28 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 18:34:18 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 18:56:01 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_gnl	*ps_setlst(t_gnl **s_buff, int fd)
 	return (t_buff);
 }
 
-char	*ps_gnl(int fd, t_gnl *t_buff)
+char	*ps_gnl(int fd, t_gnl *t_buff)//, t_gnl *s_buff)
 {
 	static t_gnl	*s_buff;
 	//t_gnl			*t_buff;
@@ -123,7 +123,7 @@ char	*ps_gnl(int fd, t_gnl *t_buff)
 	ret = NULL;
 	status = ps_getfd(t_buff, buff, &ret);
 	free(buff);
-	if ((status == ERROR || status == END_OF_FILE))
+	if ((status == ERROR || status == END_OF_FILE) || !ft_strchr(ret, '\0'))
 		ps_buff_clear(&s_buff, t_buff);
 	if (status == ERROR)
 		return (NULL);
