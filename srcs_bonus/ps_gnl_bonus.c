@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:29:28 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 19:01:27 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 19:08:33 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	ps_line_output(t_gnl **t_buff, char *ptr, char **ret)
 	if (ptr)
 	{
 		*ret = ft_strndup((*t_buff)->memo, ptr - ((*t_buff)->memo));
+		if (!ft_strncmp(*ret, "\0", 1))
+			return (END_OF_FILE);
 		tmp = ft_strndup(ptr + 1, ft_strlen(ptr + 1));
 		free((*t_buff)->memo);
 		(*t_buff)->memo = tmp;
