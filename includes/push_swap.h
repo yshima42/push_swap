@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 14:43:34 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 18:34:37 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,5 +186,12 @@ void	ko_output_exit(t_stack *stack);
 
 //ans_check_bonus.c
 bool	ans_check(t_stack *stack, int32_t n_nums);
+
+//ps_gnl_bonus.c
+char	*ps_gnl(int fd, t_gnl *t_buff);
+
+//ps_gnl_utils_bonus.c
+t_gnl	*ps_gnlnew(int fd, char *c);
+char	*ps_strndup(const char *src, size_t n);
 
 #endif
