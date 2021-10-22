@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:30:10 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 18:13:40 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 01:28:09 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,18 @@ char	*ps_strndup(const char *src, size_t n)
 	}
 	ptr[len] = 0;
 	return (ptr);
+}
+
+bool	ps_gnl_end_check(int status, char *ret)
+{
+	if ((status == ERROR || status == END_OF_FILE) || !ft_strncmp(ret, "\0", 1)
+		|| !(!ft_strncmp(ret, "pa", 2) || !ft_strncmp(ret, "pb", 2)
+			|| !ft_strncmp(ret, "sa", 2) || !ft_strncmp(ret, "sb", 2)
+			|| !ft_strncmp(ret, "ss", 2) || !ft_strncmp(ret, "ra", 2)
+			|| !ft_strncmp(ret, "rb", 2) || !ft_strncmp(ret, "rr", 2)
+			|| !ft_strncmp(ret, "rra", 3) || !ft_strncmp(ret, "rrb", 3)
+			|| !ft_strncmp(ret, "rrr", 3)))
+		return (true);
+	else
+		return (false);
 }

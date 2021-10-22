@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 23:42:41 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 01:27:44 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,5 +193,6 @@ char	*ps_gnl(int fd);
 //ps_gnl_utils_bonus.c
 t_gnl	*ps_gnlnew(int fd, char *c);
 char	*ps_strndup(const char *src, size_t n);
+bool	ps_gnl_end_check(int status, char *ret);
 
 #endif
