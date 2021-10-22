@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:38:31 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 14:31:03 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/22 23:25:57 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int32_t	ps_atoi(const char *str, t_stack *stack)
 	if (no_spaces_str[++i] == '-')
 		sign = -1;
 	c_is_num_check(no_spaces_str[i], stack);
+	if (no_spaces_str[i] == '0' && no_spaces_str[i + 1] != '\0')
+		error_exit(stack);
 	while (no_spaces_str[i] >= '0' && no_spaces_str[i] <= '9')
 	{
 		result = result * 10 + (no_spaces_str[i] - '0');
