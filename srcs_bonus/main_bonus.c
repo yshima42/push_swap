@@ -56,6 +56,7 @@ static void	ans_get_dlst(t_stack *stack)
 			ft_putstr_fd("Error\n", 2);
 			all_free_exit(stack, EXIT_FAILURE);
 		}
+		free(ans_str);
 		dlst_add_back(stack->ans, dlst_new(ans_int));
 	}
 }
