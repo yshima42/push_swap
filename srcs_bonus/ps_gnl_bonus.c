@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:29:28 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/23 01:08:51 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 01:11:49 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,10 @@ char	*ps_gnl(int fd)
 	status = ps_getfd(t_buff, buff, &ret);
 	free(buff);
 	if ((status == ERROR || status == END_OF_FILE) || !ft_strncmp(ret, "\0", 1)
-		|| (!ft_strncmp(ret, "PA", 2) && !ft_strncmp(ret, "PB", 2) && !ft_strncmp(ret, "SA", 2)
-		&& !ft_strncmp(ret, "SB", 2) && !ft_strncmp(ret, "SS", 2) && !ft_strncmp(ret, "RA", 2)
-		&& !ft_strncmp(ret, "RB", 2) && !ft_strncmp(ret, "RR", 2) && !ft_strncmp(ret, "RRA", 3)
-		&& !ft_strncmp(ret, "RRB", 3) && !ft_strncmp(ret, "RRR", 3) && !ft_strncmp(ret, "PA", 2)))
+		|| !(ft_strncmp(ret, "PA", 2) && ft_strncmp(ret, "PB", 2) && ft_strncmp(ret, "SA", 2)
+		&& ft_strncmp(ret, "SB", 2) && ft_strncmp(ret, "SS", 2) && ft_strncmp(ret, "RA", 2)
+		&& ft_strncmp(ret, "RB", 2) && ft_strncmp(ret, "RR", 2) && ft_strncmp(ret, "RRA", 3)
+		&& ft_strncmp(ret, "RRB", 3) && ft_strncmp(ret, "RRR", 3)))
 		ps_buff_clear(&s_buff, t_buff);
 	if (status == ERROR)
 		return (NULL);
