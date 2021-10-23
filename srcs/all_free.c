@@ -6,13 +6,13 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:45:25 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 14:24:19 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 10:48:13 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	dlst_free(t_dlst *head)
+static void	dlst_free(t_dlst *head)
 {
 	t_dlst	*p;
 

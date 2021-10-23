@@ -1,23 +1,26 @@
 CC				= 	gcc
 CFLAGS			= 	-Wall -Wextra -Werror
 NAME			= 	push_swap
-BONUS_NAME			= 	checker
+BONUS_NAME		= 	checker
 INCLUDES		= 	includes
 SRCS_PATH		= 	./srcs/
 BONUS_PATH		= 	./srcs_bonus/
 LIBFT_PATH		= 	./libft/
-MAND_MAIN		=	$(SRCS_PATH)main.c 
-SRCS_FILES    	= 	$(SRCS_PATH)dlst_utils1.c $(SRCS_PATH)dlst_utils2.c $(SRCS_PATH)dlst_utils3.c \
-					$(SRCS_PATH)operations1.c $(SRCS_PATH)operations2.c $(SRCS_PATH)operations3.c $(SRCS_PATH)output.c \
-					$(SRCS_PATH)args_check.c $(SRCS_PATH)init.c $(SRCS_PATH)reverse_stack.c $(SRCS_PATH)find_pivots.c \
-					$(SRCS_PATH)ans_cut.c $(SRCS_PATH)atob_qsort.c $(SRCS_PATH)a_3_algo_utils.c $(SRCS_PATH)btoa_qsort.c \
-					$(SRCS_PATH)b_3_algo_utils.c $(SRCS_PATH)algo_456.c $(SRCS_PATH)algo_3.c $(SRCS_PATH)algo_2.c \
-					$(SRCS_PATH)av_to_dlst.c $(SRCS_PATH)all_free.c $(SRCS_PATH)check_num_dup.c $(SRCS_PATH)ps_atoi.c
-BONUS_MAIN    	= 	$(BONUS_PATH)main_bonus.c $(BONUS_PATH)operations1_bonus.c $(BONUS_PATH)operations2_bonus.c \
-					$(BONUS_PATH)operations3_bonus.c $(BONUS_PATH)output_bonus.c $(BONUS_PATH)ans_check_bonus.c \
-					$(BONUS_PATH)ps_gnl_bonus.c $(BONUS_PATH)ps_gnl_utils_bonus.c  
-SRCS_OBJS		= 	$(SRCS_FILES:.c=.o) $(MAND_MAIN:.c=.o)
-BONUS_OBJS		= 	$(SRCS_FILES:.c=.o) $(BONUS_MAIN:.c=.o)
+MANDATORY_MAIN	=	$(SRCS_PATH)/main.c
+SRCS_FILES    	= 	dlst_utils1.c dlst_utils2.c dlst_utils3.c \
+					operations1.c operations2.c operations3.c \
+					output.c args_check.c init.c reverse_stack.c \
+					find_pivots.c ans_cut.c atob_qsort.c \
+					a_3_algo_utils.c btoa_qsort.c b_3_algo_utils.c \
+					algo_456.c algo_3.c algo_2.c av_to_dlst.c \
+					all_free.c check_num_dup.c ps_atoi.c
+BONUS_FILES    	= 	main_bonus.c operations1_bonus.c operations2_bonus.c \
+					operations3_bonus.c output_bonus.c ans_check_bonus.c \
+					ps_gnl_bonus.c ps_gnl_utils_bonus.c
+SRCS			= 	$(addprefix $(SRCS_PATH)/, $(SRCS_FILES))
+B_SRCS			= 	$(addprefix $(BONUS_PATH)/, $(BONUS_FILES))
+SRCS_OBJS		= 	$(MANDATORY_MAIN:.c=.o) $(SRCS:.c=.o)
+BONUS_OBJS		= 	$(B_SRCS:.c=.o) $(SRCS:.c=.o)
 LIBFTMAKE		= 	$(MAKE) -C $(LIBFT_PATH)
 LIBFTFLAG		= 	-L$(LIBFT_PATH) -lft
 

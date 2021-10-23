@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:30:10 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/23 01:28:09 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 10:56:44 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_gnl	*ps_gnlnew(int fd, char *c)
 	if (!elem)
 		return (NULL);
 	elem->fd = fd;
-	elem->memo = ft_strndup(c, ft_strlen(c));
+	elem->memo = ps_strndup(c, ft_strlen(c));
 	elem->next = NULL;
 	return (elem);
 }

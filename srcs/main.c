@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 23:43:10 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 10:52:07 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void
 	}
 }
 
-bool	over_7(t_stack *stack, int32_t size)
+static bool	over_7(t_stack *stack, int32_t size)
 {
 	t_pivots	pivots;
 	t_count		count;
@@ -69,7 +69,7 @@ bool	over_7(t_stack *stack, int32_t size)
 	return (true);
 }
 
-void	upto_6(t_stack *stack, int32_t n_ags)
+static void	upto_6(t_stack *stack, int32_t n_ags)
 {
 	if (n_ags == 1)
 		;

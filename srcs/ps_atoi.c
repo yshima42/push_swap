@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:38:31 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/23 00:07:49 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 10:52:47 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	num_check(char *no_spaces_str, t_stack *stack, size_t i)
 		error_exit(stack);
 }
 
-void	int_max_check(int32_t sign, size_t result, t_stack *stack)
+static void	int_max_check(int32_t sign, size_t result, t_stack *stack)
 {
 	if ((sign == -1 && result > 2147483648)
 		|| (sign == 1 && result > 2147483647)

@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/13 12:29:28 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/23 01:27:21 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/23 10:56:33 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static int	ps_line_output(t_gnl **t_buff, char *ptr, char **ret)
 
 	if (ptr)
 	{
-		*ret = ft_strndup((*t_buff)->memo, ptr - ((*t_buff)->memo));
-		tmp = ft_strndup(ptr + 1, ft_strlen(ptr + 1));
+		*ret = ps_strndup((*t_buff)->memo, ptr - ((*t_buff)->memo));
+		tmp = ps_strndup(ptr + 1, ft_strlen(ptr + 1));
 		free((*t_buff)->memo);
 		(*t_buff)->memo = tmp;
 		return (SUCCESS);
@@ -51,8 +51,8 @@ static int	ps_line_output(t_gnl **t_buff, char *ptr, char **ret)
 			*ret = NULL;
 		else
 		{
-			*ret = ft_strndup((*t_buff)->memo, ft_strlen((*t_buff)->memo));
-			tmp = ft_strndup("", 0);
+			*ret = ps_strndup((*t_buff)->memo, ft_strlen((*t_buff)->memo));
+			tmp = ps_strndup("", 0);
 			free((*t_buff)->memo);
 			(*t_buff)->memo = tmp;
 		}
@@ -85,7 +85,7 @@ static int	ps_getfd(t_gnl *t_buff, char *buff, char **ret)
 	return (ps_line_output(&t_buff, ptr, ret));
 }
 
-t_gnl	*ps_setlst(t_gnl **s_buff, int fd)
+static t_gnl	*ps_setlst(t_gnl **s_buff, int fd)
 {
 	t_gnl	*t_buff;
 
