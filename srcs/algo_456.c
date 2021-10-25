@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:08:53 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/22 14:24:04 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/24 21:26:28 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ static bool	is_closer_front(t_dlst *a_head, t_dlst *p_s)
 		p = p->prev;
 		dis_back++;
 	}
-	if (dis_front <= dis_back)
-		return (true);
-	else
-		return (false);
+	return (dis_front <= dis_back);
 }
 
 static void	push_to_b_456(t_stack *stack)
