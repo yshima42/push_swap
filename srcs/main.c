@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:10:18 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/25 14:06:43 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:36:16 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int	main(int32_t ac, char **av)
 		upto_6(stack, n_nums);
 	else
 		over_7(stack, n_nums);
-	ans_cut(stack->ans);
-	ans_cut(stack->ans);
+	while (ans_cut(stack->ans))
+		;
 	ans_output(stack->ans);
 	all_free_exit(stack, EXIT_SUCCESS);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: yshimazu <yshimazu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 21:56:57 by yshimazu          #+#    #+#             */
-/*   Updated: 2021/10/23 01:27:44 by yshimazu         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:35:44 by yshimazu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	algo_456(t_stack *stack);
 void	all_free_exit(t_stack *stack, int32_t exit_status);
 
 //ans_cut.c
-void	ans_cut(t_dlst *ans);
+bool	ans_cut(t_dlst *ans);
 
 //args_check.c
 void	args_check(int32_t n_nums);
